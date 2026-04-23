@@ -1,6 +1,4 @@
 ﻿{
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/pen", "destination": "/pen-soficca.html" }
-  ]
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true
 }
