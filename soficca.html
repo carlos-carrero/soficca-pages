@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soficca — Clinical Decision Infrastructure</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Syne+Mono&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #1a1917;
+    --ink-secondary: #3d3a36;
+    --paper: #f8f6f1;
+    --warm-white: #fdfcf9;
+    --surface: #f0ede7;
+    --accent: #2d6a4f;
+    --accent-hover: #245840;
+    --accent-soft: #e9f0ec;
+    --accent-light: #e9f0ec;
+    --muted: #706c67;
+    --rule: #ddd8d0;
+    --rule-light: #e8e4dc;
+    --phase-1: #c8ddd7;
+    --phase-2: #a8c4bc;
+    --phase-3: #2d6a4f;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.3;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .serif { font-family: 'Space Grotesk', sans-serif; font-weight: 600; }
+  .mono  { font-family: 'JetBrains Mono', monospace; }
+
+  /* ── HEADER ── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(248,246,241,0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: none;
+  }
+
+  .logo {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    text-decoration: none;
+    transition: opacity 0.25s ease;
+  }
+  .logo:hover { opacity: 0.65; }
+
+  .header-link {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .header-link:hover { color: var(--ink); }
+
+  /* ── HERO ── */
+  .hero {
+    margin-top: 72px;
+    min-height: calc(100vh - 72px);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px clamp(32px, 4vw, 64px) 56px;
+  }
+
+  .hero-left {
+    max-width: 760px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-meta {
+    position: absolute;
+    bottom: 40px;
+    right: clamp(32px, 4vw, 64px);
+    display: flex;
+    gap: 24px;
+    border-top: 1px solid var(--rule-light);
+    padding-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0.42;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eyebrow::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--muted);
+    opacity: 0.5;
+  }
+
+  .hero-headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(4.5rem, 7vw, 6.5rem);
+    font-weight: 600;
+    line-height: 0.94;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+    max-width: 920px;
+    margin: 0;
+  }
+
+  .hero-headline em {
+    font-style: normal;
+    color: var(--accent);
+    letter-spacing: -0.04em;
+  }
+
+  .hero-body {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--ink-secondary);
+    max-width: 620px;
+    margin-top: 36px;
+    margin-bottom: 0;
+    font-weight: 400;
+  }
+
+  .scroll-cue {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .scroll-arrow {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: bounceDown 2s ease-in-out infinite;
+  }
+
+  @keyframes bounceDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+  }
+
+
+  /* ── DIVIDER ── */
+  .rule-section {
+    padding: 0 56px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    height: 56px;
+    overflow: hidden;
+  }
+
+  .rule-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .rule-line { flex: 1; height: 1px; background: var(--rule); }
+
+  /* ── PROPOSITION ── */
+  .proposition {
+    padding: 148px 56px;
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .prop-left {
+    position: sticky;
+    top: 100px;
+  }
+
+  .prop-left .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .prop-headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.85rem, 2.8vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    margin-bottom: 32px;
+    color: var(--ink);
+  }
+
+  .prop-body {
+    font-size: 0.95rem;
+    line-height: 1.78;
+    color: var(--ink-secondary);
+    max-width: 460px;
+  }
+
+  /* ── PILLARS ── */
+  .pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--rule-light);
+    border: 1px solid var(--rule-light);
+    border-radius: 6px;
+    overflow: hidden;
+    counter-reset: pillar-count;
+  }
+
+  .pillar {
+    padding: 36px 52px 36px 32px;
+    background: var(--warm-white);
+    border-left: 2px solid var(--rule-light);
+    position: relative;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s ease, border-color 0.3s ease;
+    counter-increment: pillar-count;
+  }
+
+  .pillar::after {
+    content: '0' counter(pillar-count);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    opacity: 0.4;
+    position: absolute;
+    top: 36px;
+    right: 24px;
+  }
+
+  .pillar.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pillar:nth-child(2) { transition-delay: 0.08s; }
+  .pillar:nth-child(3) { transition-delay: 0.16s; }
+  .pillar:nth-child(4) { transition-delay: 0.24s; }
+  .pillar:hover { background: #fff; border-left-color: var(--accent); }
+
+  .pillar-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .pillar-body {
+    font-size: 0.875rem;
+    line-height: 1.72;
+    color: var(--ink-secondary);
+  }
+
+  /* ── ROADMAP ── */
+  .roadmap {
+    padding: 148px 56px;
+    background: #171613;
+    color: var(--paper);
+  }
+
+  .roadmap-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 64px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .roadmap-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 2.8rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    color: #fff;
+  }
+
+  .roadmap-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.36);
+    max-width: 240px;
+    text-align: right;
+    line-height: 1.75;
+  }
+
+  .phases {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .phase {
+    padding: 48px 40px 44px;
+    position: relative;
+    background: #171613;
+    transition: background 0.3s ease;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .phase-active {
+    background: #1c1b18;
+  }
+
+  .phase:hover { background: #1a1916; }
+  .phase-active:hover { background: #1e1d1a; }
+
+  .phase-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .phase-num::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .phase-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+
+  .phase:nth-child(1) .phase-badge {
+    background: rgba(200,221,215,0.12);
+    color: var(--phase-1);
+    border: 1px solid rgba(200,221,215,0.2);
+  }
+  .phase:nth-child(2) .phase-badge {
+    background: rgba(168,196,188,0.06);
+    color: var(--phase-2);
+    border: 1px solid rgba(168,196,188,0.12);
+  }
+  .phase:nth-child(3) .phase-badge {
+    background: rgba(45,106,79,0.08);
+    color: rgba(106,187,163,0.85);
+    border: 1px solid rgba(45,106,79,0.16);
+  }
+
+  .phase-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin-bottom: 16px;
+    line-height: 1.25;
+  }
+
+  .phase-body {
+    font-size: 0.875rem;
+    line-height: 1.72;
+    color: rgba(255,255,255,0.44);
+    flex: 1;
+  }
+
+  .phase-active .phase-body {
+    color: rgba(255,255,255,0.54);
+  }
+
+  .phase-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--phase-1);
+    text-decoration: none;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(200,221,215,0.22);
+    transition: color 0.25s ease, border-color 0.25s ease;
+    width: fit-content;
+  }
+  .phase-link:hover { color: #fff; border-color: rgba(255,255,255,0.32); }
+
+  /* ── EVIDENCE SECTION ── */
+  .evidence-section {
+    padding: 148px 56px;
+    background: #171613;
+    color: var(--paper);
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .evidence-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 64px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .evidence-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.32);
+    margin-bottom: 20px;
+  }
+
+  .evidence-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 2.8rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    color: #fff;
+  }
+
+  .evidence-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.36);
+    text-align: right;
+    line-height: 1.75;
+    align-self: flex-end;
+  }
+
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .evidence-panel {
+    padding: 48px 40px 44px;
+    background: #171613;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .evidence-panel-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .evidence-panel-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .evidence-panel-heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.3;
+    color: #fff;
+    margin-bottom: 28px;
+  }
+
+  .evidence-panel-body {
+    font-size: 0.875rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.44);
+    flex: 1;
+    max-width: 400px;
+    margin-bottom: 0;
+  }
+
+  .evidence-panel-figure {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: #fff;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .evidence-panel-support {
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.42);
+    margin-bottom: 16px;
+  }
+
+  .evidence-panel-source {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.22);
+  }
+
+  /* ── COMPOUNDING ── */
+  .compounding {
+    padding: 148px 56px;
+    display: grid;
+    grid-template-columns: 5fr 5fr;
+    gap: 80px;
+    align-items: center;
+    background: var(--accent-soft);
+    border-top: 1px solid var(--rule);
+  }
+
+  .compounding .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 20px;
+  }
+
+  .compound-headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.85rem, 2.8vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    margin-bottom: 32px;
+    color: var(--ink);
+  }
+
+  .compound-body {
+    font-size: 0.95rem;
+    line-height: 1.78;
+    color: var(--ink-secondary);
+    max-width: 480px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .compound-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: rgba(45,106,79,0.08);
+    border: 1px solid rgba(45,106,79,0.1);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .compound-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: rgba(255,255,255,0.72);
+    border-left: 2px solid rgba(45,106,79,0.22);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--ink-secondary);
+    opacity: 0;
+    transform: translateX(14px);
+    transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .compound-row.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .compound-row:hover { background: rgba(255,255,255,0.92); border-left-color: var(--accent); }
+  .compound-row:nth-child(2) { transition-delay: 0.06s; }
+  .compound-row:nth-child(3) { transition-delay: 0.12s; }
+  .compound-row:nth-child(4) { transition-delay: 0.18s; }
+
+  .compound-icon {
+    width: 26px;
+    height: 26px;
+    background: var(--accent);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .compound-icon svg { width: 13px; height: 13px; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 36px 56px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .footer-copy {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .footer-back {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-back:hover { color: var(--ink); }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── HERO CTA ── */
+  .hero-cta-group {
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent);
+    height: 52px;
+    padding: 0 26px;
+    text-decoration: none;
+    border: 1px solid var(--accent-hover);
+    border-radius: 6px;
+    transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  }
+  .hero-cta:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(45,106,79,0.2);
+  }
+
+  .hero-secondary {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(145,140,134,0.25);
+    padding-bottom: 3px;
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+  .hero-secondary:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* ── HOW IT WORKS ── */
+  .how-it-works {
+    padding: 148px 56px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .how-header {
+    max-width: 560px;
+    margin-bottom: 80px;
+  }
+
+  .how-header .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 20px;
+  }
+
+  .how-headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.85rem, 2.8vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    margin-bottom: 32px;
+    color: var(--ink);
+  }
+
+  .how-body {
+    font-size: 0.95rem;
+    line-height: 1.78;
+    color: var(--ink-secondary);
+    max-width: 520px;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule-light);
+    border: 1px solid var(--rule-light);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .step {
+    padding: 44px 32px;
+    background: var(--warm-white);
+    border-top: 2px solid rgba(45,106,79,0.16);
+    position: relative;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s ease, border-color 0.3s ease;
+  }
+  .step.visible { opacity: 1; transform: translateY(0); }
+  .step:nth-child(2) { transition-delay: 0.08s; }
+  .step:nth-child(3) { transition-delay: 0.16s; }
+  .step:nth-child(4) { transition-delay: 0.24s; }
+  .step:hover { background: #fff; border-top-color: rgba(45,106,79,0.38); }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    opacity: 1;
+    margin-bottom: 22px;
+    display: block;
+  }
+
+  .step-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .step-body {
+    font-size: 0.875rem;
+    line-height: 1.72;
+    color: var(--ink-secondary);
+  }
+
+  /* ── EARLY PROOF ── */
+  .early-proof {
+    padding: 148px 56px;
+    border-top: 1px solid var(--rule);
+    background: var(--surface);
+  }
+
+  .proof-header {
+    margin-bottom: 72px;
+  }
+
+  .proof-header .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+  }
+
+  .proof-headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.85rem, 2.8vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+  }
+
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule-light);
+    border: 1px solid var(--rule-light);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 64px;
+    counter-reset: proof-count;
+  }
+
+  .proof-card {
+    padding: 40px 32px;
+    background: var(--warm-white);
+    border-top: 2px solid rgba(45,106,79,0.18);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    min-height: 148px;
+    line-height: 1.45;
+    color: var(--ink);
+    position: relative;
+    counter-increment: proof-count;
+    display: flex;
+    align-items: flex-end;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s ease, border-color 0.3s ease;
+  }
+  .proof-card:hover { background: #fff; border-top-color: rgba(45,106,79,0.38); }
+
+  .proof-card::before {
+    content: '0' counter(proof-count);
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    opacity: 0.55;
+  }
+
+  .proof-card.visible { opacity: 1; transform: translateY(0); }
+  .proof-card:nth-child(2) { transition-delay: 0.06s; }
+  .proof-card:nth-child(3) { transition-delay: 0.12s; }
+  .proof-card:nth-child(4) { transition-delay: 0.18s; }
+
+  .proof-body {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--ink-secondary);
+    max-width: 600px;
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+  .proof-body + .proof-body { margin-top: 16px; }
+
+  .proof-card-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .proof-card-body {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--ink-secondary);
+  }
+
+  .advisor-card {
+    padding: 44px 48px;
+    background: var(--warm-white);
+    border: 1px solid var(--rule-light);
+    border-left: 3px solid rgba(45,106,79,0.35);
+    border-radius: 6px;
+    max-width: 740px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .advisor-card.visible { opacity: 1; transform: translateY(0); }
+
+  .advisor-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .advisor-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .advisor-body {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--ink-secondary);
+    max-width: 580px;
+  }
+
+  /* ── COMPOUND CTA ── */
+  .compound-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent);
+    height: 52px;
+    padding: 0 26px;
+    text-decoration: none;
+    border: 1px solid var(--accent-hover);
+    border-radius: 6px;
+    transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  }
+  .compound-cta:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(45,106,79,0.2); }
+
+  /* ── SECTION BRIDGE ── */
+  .section-bridge {
+    padding: 0 56px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .bridge-line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule-light);
+  }
+
+  .bridge-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* ── PROP-LEFT ACCENT ── */
+  .prop-accent {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  /* ── PHASE ACTIVE ── */
+  .phase.phase-active {
+    background: #1c1b18;
+  }
+
+  .phase.phase-active .phase-title {
+    font-weight: 700;
+  }
+
+  .phase.phase-active .phase-body {
+    color: rgba(255,255,255,0.54);
+  }
+
+  .phase.phase-active .phase-num {
+    color: rgba(255,255,255,0.35);
+  }
+
+  .phase:not(.phase-active) .phase-title { color: rgba(255,255,255,0.72); }
+  .phase:not(.phase-active) .phase-body { color: rgba(255,255,255,0.38); }
+
+  /* ── CARDIO DEMO ── */
+  .cardio-demo {
+    padding: 120px 72px 128px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .cardio-content-row {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .cardio-right {
+    padding-top: 6px;
+  }
+
+  .cardio-headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.85rem, 3.2vw, 2.8rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    margin-bottom: 40px;
+    color: var(--ink);
+    max-width: 560px;
+  }
+
+  .cardio-body {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--ink-secondary);
+    max-width: 580px;
+    margin-bottom: 32px;
+  }
+
+  .cardio-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--rule-light);
+    border: 1px solid var(--rule-light);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  .cardio-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    min-height: 64px;
+    padding: 20px 24px;
+    background: var(--warm-white);
+    border-left: 2px solid var(--rule-light);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--ink);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.4s ease, transform 0.4s ease, background 0.3s ease, border-color 0.3s ease;
+  }
+  .cardio-feature.visible { opacity: 1; transform: translateX(0); }
+  .cardio-feature:hover { background: #fff; border-left-color: var(--accent); }
+  .cardio-feature:nth-child(2) { transition-delay: 0.06s; }
+  .cardio-feature:nth-child(3) { transition-delay: 0.12s; }
+  .cardio-feature:nth-child(4) { transition-delay: 0.18s; }
+
+  .cardio-feature-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  .cardio-feature-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .cardio-feature-desc {
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink-secondary);
+  }
+
+  .cardio-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 3px 0;
+    border-bottom: 1px solid rgba(145,140,134,0.25);
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+  .cardio-cta:hover { color: var(--ink); border-color: var(--ink); }
+
+  .cardio-artifact-row {
+    margin-top: 64px;
+  }
+
+  .cardio-preview {
+    position: relative;
+    isolation: isolate;
+    background: #0f0e0d;
+    border-radius: 16px;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow:
+      0 1px 3px rgba(0,0,0,0.08),
+      0 8px 24px rgba(0,0,0,0.10),
+      0 24px 60px rgba(0,0,0,0.14);
+  }
+
+  .cardio-preview::before {
+    content: '';
+    position: absolute;
+    inset: 40px -12px -28px;
+    background: rgba(0,0,0,0.12);
+    border-radius: 28px;
+    filter: blur(52px);
+    z-index: -1;
+  }
+
+  .cardio-preview-frame {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .cardio-preview-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .cardio-preview-footer {
+    height: 32px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.09);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.62);
+  }
+
+  @media (max-width: 900px) {
+    .hero { padding: 80px 24px 56px; min-height: auto; }
+    .hero-headline { font-size: clamp(2.75rem, 10vw, 4.25rem); letter-spacing: -0.04em; }
+    .hero-meta { display: none; }
+    .hero-cta-group { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .proposition { grid-template-columns: 1fr; padding: 80px 24px; gap: 48px; }
+    .prop-left { position: static; }
+    .phases { grid-template-columns: 1fr; }
+    .compounding { grid-template-columns: 1fr; padding: 80px 24px; }
+    header { padding: 14px 24px; }
+    .rule-section { padding: 0 24px; }
+    .roadmap { padding: 80px 24px; }
+    footer { padding: 28px 24px; flex-direction: column; gap: 12px; text-align: center; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .proof-grid { grid-template-columns: 1fr 1fr; }
+    .how-it-works { padding: 80px 24px; }
+    .early-proof { padding: 80px 24px; }
+    .evidence-section { padding: 80px 24px; }
+    .evidence-grid { grid-template-columns: 1fr; }
+    .evidence-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .cardio-demo { padding: 80px 24px; }
+    .cardio-content-row { grid-template-columns: 1fr; gap: 48px; }
+    .cardio-headline { font-size: clamp(2rem, 8vw, 3rem); max-width: none; }
+    .cardio-body { font-size: 1rem; max-width: none; }
+    .section-bridge { padding: 0 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="#" class="logo">Soficca</a>
+  <a href="https://www.soficca.com/" class="header-link">← Back to Pen</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">Clinical Decision Infrastructure</div>
+    <h1 class="hero-headline serif">
+      Building the<br>
+      decision layer<br>
+      for <em>healthcare</em>
+    </h1>
+    <p class="hero-body" style="margin-top: 40px; margin-bottom: 20px;">
+      Healthcare does not only have an information problem. It has a repeated decision problem.
+    </p>
+    <p class="hero-body" style="margin-top: 0;">
+      Soficca turns structured patient signals, safety logic, and follow-up context into governed next-step decisions across workflows.
+    </p>
+    <div class="hero-cta-group">
+      <a href="https://www.soficca.com/" class="hero-cta">See the first workflow →</a>
+      <a href="#roadmap" class="hero-secondary">See the roadmap</a>
+    </div>
+  </div>
+
+  <div class="hero-meta">
+    <span>Deterministic</span>
+    <span>Auditable</span>
+    <span>Versionable</span>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="rule-section">
+  <span class="rule-tag">From fragmented care</span>
+  <div class="rule-line"></div>
+  <span class="rule-tag">To structured decisions</span>
+</div>
+
+<!-- PROPOSITION -->
+<section class="proposition">
+  <div class="prop-left fade-in">
+    <div class="section-label">From Fragmented Care</div>
+    <h2 class="prop-headline serif">Toward governed clinical decisions</h2>
+    <p class="prop-body" style="margin-bottom: 18px;">
+      The challenge is not a single clinical decision. It is the repeated failure of what happens next. Across intake, routing, medication, and follow-up, next-step decisions still live in fragmented workflows, disconnected tools, and manual judgment.
+    </p>
+    <p class="prop-body" style="margin-top: 0;">
+      Soficca exists to structure those recurring decisions into governed, traceable logic that can be reused across care workflows.
+    </p>
+    <div class="prop-accent">Governance · Traceability · Continuity · Reuse</div>
+  </div>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-title">Safer decisions</div>
+      <div class="pillar-body">Structured logic helps reduce avoidable variation in high-stakes next-step decisions.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Longitudinal decision context</div>
+      <div class="pillar-body">Each follow-up adds context that improves the next review, route, or action.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Traceable logic</div>
+      <div class="pillar-body">Every governed output can remain legible, reviewable, and consistent over time.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Reusable across workflows</div>
+      <div class="pillar-body">The same decision layer can support repeated care logic across multiple environments.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIDGE -->
+<div class="section-bridge">
+  <div class="bridge-line"></div>
+  <span class="bridge-text">How the layer works</span>
+  <div class="bridge-line"></div>
+</div>
+
+<!-- HOW SOFICCA WORKS -->
+<section class="how-it-works">
+  <div class="how-header fade-in">
+    <div class="section-label">How Soficca Works</div>
+    <h2 class="how-headline serif">From inputs to governed decisions</h2>
+    <p class="how-body">Soficca is designed to turn structured inputs into governed next-step decisions. Patient signals, safety rules, workflow logic, and follow-up data are evaluated together so each output is actionable, traceable, and consistent over time.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Structured inputs</div>
+      <div class="step-body">Patient signals, symptoms, history, and workflow context enter the layer in a governed format.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Governed logic</div>
+      <div class="step-body">Rules, routing criteria, and safety conditions evaluate what should happen next.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Traceable output</div>
+      <div class="step-body">Each decision is produced as a legible next-step output with clear logic behind it.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Longitudinal context</div>
+      <div class="step-body">Follow-up data carries forward so future reviews and actions improve over time.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="roadmap" id="roadmap">
+  <div class="roadmap-header fade-in">
+    <h2 class="roadmap-title serif">Our Roadmap</h2>
+    <div class="roadmap-note">Workflow → continuity → infrastructure</div>
+  </div>
+
+  <div class="phases">
+    <div class="phase phase-active fade-in">
+      <div class="phase-num">Phase 1.0</div>
+      <div class="phase-badge">Live Now</div>
+      <h3 class="phase-title serif">Pen: First Decision Workflow</h3>
+      <p class="phase-body">
+        The first governed workflow validating structured intake, routing, and follow-up in real product use.
+      </p>
+      <a href="https://www.soficca.com/" class="phase-link">View Pen →</a>
+    </div>
+
+    <div class="phase fade-in">
+      <div class="phase-num">Phase 2.0</div>
+      <div class="phase-badge">Building</div>
+      <h3 class="phase-title serif">Longitudinal Patient Context</h3>
+      <p class="phase-body">
+        As care continues over time, follow-up data becomes part of the next decision, making continuity a system requirement.
+      </p>
+    </div>
+
+    <div class="phase fade-in">
+      <div class="phase-num">Phase 3.0</div>
+      <div class="phase-badge">Infrastructure</div>
+      <h3 class="phase-title serif">Clinical Decision Infrastructure</h3>
+      <p class="phase-body">
+        When the same decision logic repeats across workflows, the reusable layer becomes the larger opportunity.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- EARLY PROOF -->
+<section class="early-proof">
+  <div class="proof-header fade-in">
+    <div class="section-label">Early Proof</div>
+    <h2 class="proof-headline serif">Built beyond concept</h2>
+    <p class="proof-body">Soficca is not being defined only in theory. It is already taking shape through a real workflow, governed outputs, and the product discipline required to carry decisions forward over time.</p>
+    <p class="proof-body">Pen is the first workflow where that layer is being built, tested, and made operational.</p>
+  </div>
+
+  <div class="proof-grid">
+    <div class="proof-card">
+      <div><div class="proof-card-title">Real workflow surface</div><div class="proof-card-body">Pen provides the first live product environment where the layer is being shaped in practice.</div></div>
+    </div>
+    <div class="proof-card">
+      <div><div class="proof-card-title">Governed outputs</div><div class="proof-card-body">The system is being built around structured next-step decisions, not just stored data or static recommendations.</div></div>
+    </div>
+    <div class="proof-card">
+      <div><div class="proof-card-title">Operational continuity</div><div class="proof-card-body">Follow-up, review timing, and next-step logic are being carried forward as part of the workflow.</div></div>
+    </div>
+    <div class="proof-card">
+      <div><div class="proof-card-title">Reusable layer discipline</div><div class="proof-card-body">What begins in one workflow is being structured to support repeatable decision logic underneath.</div></div>
+    </div>
+  </div>
+
+  <div class="advisor-card">
+    <div class="advisor-name">Carlos Pérez</div>
+    <div class="advisor-role">Clinical Audit &amp; Regulatory Advisor</div>
+    <div class="advisor-body">Clinical audit specialist with 10+ years of experience in healthcare operations and regulatory processes in Colombia. Currently works at Nueva EPS and advises Soficca on documentation discipline, audit-readiness, and regulatory alignment.</div>
+  </div>
+</section>
+
+<!-- EVIDENCE -->
+<section class="evidence-section fade-in">
+  <div class="evidence-header">
+    <div>
+      <div class="evidence-eyebrow">Why This Layer Matters</div>
+      <h2 class="evidence-title">The cost of fragmented decisions is already enormous.</h2>
+    </div>
+    <div class="evidence-meta">COST → CONTINUITY → DECISION LAYER</div>
+  </div>
+
+  <div class="evidence-grid">
+    <div class="evidence-panel">
+      <div class="evidence-panel-label">Why Now</div>
+      <h3 class="evidence-panel-heading">Fragmented decisions still carry real system cost.</h3>
+      <p class="evidence-panel-body">Medication errors alone are estimated to cost US$42B annually worldwide, while only 24% of patients with chronic conditions report having a care plan available to them. The missing layer is not only digital access — it is governed continuity, traceable next-step logic, and follow-up that carries forward over time.</p>
+    </div>
+    <div class="evidence-panel">
+      <div class="evidence-panel-label">Global Cost</div>
+      <div class="evidence-panel-figure">US$42B annual cost</div>
+      <p class="evidence-panel-support">Estimated annual global cost associated with medication errors.</p>
+      <div class="evidence-panel-source">Source: WHO</div>
+    </div>
+    <div class="evidence-panel">
+      <div class="evidence-panel-label">Continuity Gap</div>
+      <div class="evidence-panel-figure">24% care plan availability</div>
+      <p class="evidence-panel-support">Share of patients with chronic conditions reporting they have a care plan available to them.</p>
+      <div class="evidence-panel-source">Source: OECD PaRIS</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIDGE -->
+<div class="section-bridge">
+  <div class="bridge-line"></div>
+  <span class="bridge-text">Beyond the first workflow</span>
+  <div class="bridge-line"></div>
+</div>
+
+<!-- CARDIO DEMO -->
+<section class="cardio-demo">
+
+  <div class="cardio-content-row fade-in">
+    <div class="cardio-left">
+      <div class="section-label">Adaptability</div>
+      <h2 class="cardio-headline serif">One decision layer, multiple clinical workflows</h2>
+      <p class="cardio-body">The opportunity is not one product or one specialty. It is the repeated need for governed next-step decisions across healthcare workflows. Routing, medication logic, follow-up, and continuity do not break in only one setting — they repeat across care environments.</p>
+      <p class="cardio-body">That is why Soficca can extend beyond Pen: the same decision layer can support multiple clinical and operational workflows underneath.</p>
+    </div>
+
+    <div class="cardio-right">
+      <div class="cardio-features">
+        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Hospitals</div><div class="cardio-feature-desc">Structured routing, escalation, and follow-up logic can govern what should happen next across clinical pathways.</div></div></div>
+        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Pharmacies</div><div class="cardio-feature-desc">Medication eligibility, safety checks, and continuity can be structured into repeatable workflow decisions.</div></div></div>
+        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Telehealth</div><div class="cardio-feature-desc">Intake, next-step recommendations, escalation, and review timing can move beyond one-time interactions.</div></div></div>
+        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Longitudinal care</div><div class="cardio-feature-desc">As follow-up accumulates over time, the same layer can carry context into future actions and reviews.</div></div></div>
+      </div>
+      <a href="https://cardio.soficca.com/" class="cardio-cta" target="_blank" rel="noopener noreferrer">View cardio demo →</a>
+    </div>
+  </div>
+
+  <div class="cardio-artifact-row fade-in">
+    <div class="cardio-preview">
+      <div class="cardio-preview-frame">
+        <a href="https://cardio.soficca.com/" target="_blank" rel="noopener noreferrer" style="display:block;"><img src="cardio-demo.png?v=2" alt="Cardio workflow demo — Soficca infrastructure" class="cardio-preview-img"></a>
+      </div>
+      <div class="cardio-preview-footer">
+        <span>Cardio workflow</span>
+        <span>Infrastructure demo</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- COMPOUNDING -->
+<section class="compounding">
+  <div class="fade-in">
+    <div class="section-label">Why Pen Matters</div>
+    <h2 class="compound-headline serif">Pen is the first workflow. Soficca is the scalable layer behind it.</h2>
+    <p class="compound-body" style="margin-bottom: 18px;">
+      Pen is the first real workflow built on Soficca. But the larger opportunity is not one workflow — it is the repeatable decision layer underneath it.
+    </p>
+    <p class="compound-body">
+      Building Pen made that visible: structured decision history, safety logic, and longitudinal context do not need to live inside one product. They can become a reusable layer across healthcare workflows.
+    </p>
+    <a href="https://www.soficca.com/" class="compound-cta">See the first workflow →</a>
+  </div>
+
+  <div class="compound-visual">
+    <div class="compound-row">
+      <div class="compound-icon">
+        <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="7" cy="7" r="5.5" stroke="white" stroke-width="1.2"/>
+          <path d="M7 4.5v2.5l1.5 1.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      Structured decision history
+    </div>
+    <div class="compound-row">
+      <div class="compound-icon">
+        <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 7h10M7 2v10" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      Compounding safety logic
+    </div>
+    <div class="compound-row">
+      <div class="compound-icon">
+        <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 11L7 3l4 8" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4.5 8.5h5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      Longitudinal decision context
+    </div>
+    <div class="compound-row">
+      <div class="compound-icon">
+        <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="10" height="10" rx="2" stroke="white" stroke-width="1.2"/>
+          <path d="M5 7l1.5 1.5L9 5" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      Reusable decision layer
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo serif">Soficca</div>
+  <div class="footer-copy">© 2026 Soficca</div>
+  <a href="https://www.soficca.com/" class="footer-back">Back to Pen →</a>
+</footer>
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in, .pillar, .compound-row, .step, .proof-card, .advisor-card, .cardio-feature').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>

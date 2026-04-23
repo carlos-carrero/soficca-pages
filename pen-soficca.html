@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pen — Built on Soficca</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@300;400;500&family=Syne+Mono&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #F2EDE5;
+  --bg-1: #F8F4EE;
+  --bg-2: #FFFFFF;
+  --bg-3: #EBE6DD;
+  --border: rgba(0,0,0,0.08);
+  --border-accent: rgba(0,0,0,0.12);
+  --border-hover: rgba(0,0,0,0.20);
+  --text: #1F2320;
+  --text-dim: #6B6D64;
+  --text-mid: #4A4D46;
+  --accent: #DDE7DD;
+  --accent-dim: rgba(94,124,99,0.06);
+  --accent-border: rgba(94,124,99,0.18);
+  --green: #5E7C63;
+  --green-deep: #3F5A45;
+  --pen-amber: #A68B3C;
+  --pen-amber-dim: rgba(166,139,60,0.08);
+  --radius: 4px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'ss01' on;
+}
+
+/* GRAIN */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.018'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* TYPOGRAPHY */
+.jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+.grotesk { font-family: 'Space Grotesk', sans-serif; }
+.mono    { font-family: 'Syne Mono', monospace; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 52px;
+  border-bottom: none;
+  background: rgba(242,237,229,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+}
+
+.nav-logo {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-mid);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+.nav-logo:hover { color: var(--text); }
+
+.nav-center {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-link {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--text); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  padding-top: 52px;
+  display: grid;
+  grid-template-columns: 52fr 48fr;
+  background: #EEE9DF;
+  position: relative;
+  border-bottom: 1px solid rgba(40,52,45,0.08);
+}
+
+.hero-left {
+  padding: 80px 56px 72px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid rgba(40,52,45,0.12);
+  position: relative;
+  z-index: 2;
+}
+
+.hero-tag {
+  font-family: 'Syne Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0.82;
+}
+
+.hero-tag::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--green);
+  opacity: 0.55;
+  flex-shrink: 0;
+}
+
+.hero-headline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(3rem, 4.5vw, 4.1rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.042em;
+  margin-bottom: 32px;
+  color: var(--text);
+  max-width: 580px;
+}
+
+.hero-sub {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.014em;
+  line-height: 1.7;
+  color: var(--text-mid);
+  margin-bottom: 16px;
+  max-width: 490px;
+}
+
+.hero-body {
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: var(--text-dim);
+  max-width: 460px;
+  margin-bottom: 48px;
+  opacity: 0.72;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.btn-primary {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  height: 50px;
+  padding: 0 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--green-deep);
+  background: var(--green-deep);
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+}
+.btn-primary:hover {
+  background: #354D3A;
+  border-color: #354D3A;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(63,90,69,0.16);
+}
+
+.btn-ghost {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.3s ease, opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 50px;
+  opacity: 0.55;
+}
+.btn-ghost:hover { color: var(--text-mid); opacity: 0.85; }
+
+/* HERO RIGHT — embedded tonal panel */
+.hero-right {
+  padding: 80px 56px 72px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #F3EEE5;
+  position: relative;
+}
+
+.data-header {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8FA897;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(40,52,45,0.10);
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.data-row {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(40,52,45,0.09);
+  align-items: baseline;
+  transition: background 0.2s ease;
+}
+.data-row:hover {
+  background: rgba(40,52,45,0.025);
+}
+
+.data-key {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8FA897;
+}
+
+.data-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #1D2420;
+  letter-spacing: -0.01em;
+}
+
+.data-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.status-clear { background: var(--accent); color: var(--green-deep); border: 1px solid rgba(94,124,99,0.2); }
+.status-live  { background: rgba(166,139,60,0.1); color: var(--pen-amber); border: 1px solid rgba(166,139,60,0.2); }
+.status-ok    { background: rgba(40,52,45,0.05); color: var(--text-mid); border: 1px solid rgba(40,52,45,0.10); }
+
+.decision-block {
+  margin-top: 20px;
+  padding: 20px 22px;
+  background: #E8E1D6;
+  border: 1px solid rgba(40,52,45,0.08);
+  border-left: 2px solid rgba(62,124,89,0.52);
+  border-radius: var(--radius);
+}
+
+.decision-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #3E7C59;
+  margin-bottom: 12px;
+  opacity: 0.85;
+}
+
+.decision-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  color: #5F665E;
+  margin-bottom: 4px;
+  line-height: 1.7;
+}
+
+.decision-line strong {
+  color: #1D2420;
+  font-weight: 500;
+}
+
+/* ── RULE BAND ── */
+.band {
+  border-bottom: 1px solid var(--border);
+  height: 40px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-1);
+}
+
+.band-inner {
+  display: flex;
+  gap: 48px;
+  white-space: nowrap;
+  animation: marquee 52s linear infinite;
+  padding-left: 48px;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.band-item {
+  font-family: 'Syne Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  opacity: 0.7;
+}
+
+.band-item::after {
+  content: '';
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--border-accent);
+  opacity: 0.6;
+}
+
+/* ── SECTIONS ── */
+.section {
+  padding: 100px 64px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-tag {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.section-tag::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--border-hover);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.section-headline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.8rem, 2.6vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  color: var(--text);
+  margin-bottom: 28px;
+}
+
+.section-body {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--text-dim);
+  max-width: 500px;
+}
+
+.stat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stat-block {
+  padding: 24px 26px;
+  border: 1px solid var(--border-accent);
+  background: var(--bg-1);
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
+  align-items: start;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  border-radius: 14px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.04);
+}
+.stat-block:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-2);
+  box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+}
+
+.stat-block--text {
+  display: block;
+  padding: 24px 26px;
+}
+
+.stat-num {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  color: var(--green);
+  line-height: 1;
+  opacity: 0.72;
+  padding-top: 3px;
+}
+
+.stat-label {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text-dim);
+}
+
+/* ── HOW IT WORKS ── */
+.how-section {
+  padding: 100px 64px;
+  background: var(--bg-1);
+  border-bottom: 1px solid var(--border);
+}
+
+.how-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.8fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 18px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: default;
+  transition: all 0.25s ease;
+}
+
+.step:first-child { padding-top: 0; }
+.step:hover { background: rgba(0,0,0,0.02); padding-left: 8px; }
+
+.step-num {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  color: var(--green);
+  padding-top: 3px;
+  opacity: 0.65;
+}
+
+.step-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.step-body {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+/* DECISION OUTPUT */
+.output-panel {
+  background: #EDEAE2;
+  border: 1px solid rgba(40,52,45,0.12);
+  padding: 36px;
+  border-radius: var(--radius);
+  position: relative;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+
+.output-panel::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 36px;
+  right: 36px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(94,124,99,0.22), transparent);
+}
+
+.output-header {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border-bottom: 1px solid rgba(40,52,45,0.12);
+  padding-bottom: 14px;
+  margin-bottom: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.output-section {
+  margin-bottom: 24px;
+}
+
+.output-section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+  opacity: 0.82;
+}
+
+.output-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: #E4E0D7;
+  border: 1px solid rgba(40,52,45,0.09);
+  border-radius: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  transition: border-color 0.2s;
+}
+.field:hover { border-color: rgba(40,52,45,0.18); }
+
+.field-key { color: var(--text-dim); }
+.field-val { color: var(--text); }
+.field-val.green { color: var(--green); }
+.field-val.amber { color: var(--pen-amber); }
+
+/* ── ROADMAP (retained for compatibility) ── */
+.roadmap-section {
+  padding: 120px 64px;
+  border-bottom: 1px solid var(--border);
+}
+
+.roadmap-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.roadmap-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 72px;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  align-items: end;
+}
+
+.phases-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+
+.phase-card {
+  padding: 32px 28px;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  border-radius: var(--radius);
+}
+
+.phase-card:hover {
+  border-color: var(--border-accent);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.phase-card.active {
+  border-color: rgba(94,124,99,0.25);
+}
+
+.phase-num-label {
+  font-family: 'Syne Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  display: flex;
+  justify-content: space-between;
+}
+
+.phase-badge {
+  font-family: 'Syne Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.badge-live   { background: var(--accent); color: var(--green-deep); border: 1px solid rgba(94,124,99,0.2); }
+.badge-build  { background: rgba(166,139,60,0.1); color: var(--pen-amber); border: 1px solid rgba(166,139,60,0.2); }
+.badge-infra  { background: rgba(0,0,0,0.03); color: var(--text-mid); border: 1px solid var(--border-accent); }
+
+.phase-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.phase-body {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--text-dim);
+  flex: 1;
+}
+
+.phase-link {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  transition: color 0.2s, gap 0.2s;
+}
+.phase-link:hover { color: var(--green); gap: 10px; }
+
+/* ── MARKET / EXECUTION ── */
+.market-section {
+  padding: 100px 64px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-3);
+}
+
+.market-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.market-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.market-tag-item {
+  padding: 22px 26px;
+  border: 1px solid var(--border-accent);
+  background: var(--bg-1);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 16px;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  border-radius: 14px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.04);
+}
+.market-tag-item:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-2);
+  box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+}
+
+.market-tag-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 7px;
+}
+
+.market-tag-sub {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.65;
+}
+
+.market-arrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text-dim);
+  opacity: 0.32;
+  transition: color 0.2s, transform 0.2s, opacity 0.2s;
+}
+.market-tag-item:hover .market-arrow {
+  color: var(--text-dim);
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+/* ── FOUNDER / BRIDGE ── */
+.founder-section {
+  padding: 100px 64px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-3);
+}
+
+.founder-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.founder-quote {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.35rem, 2.1vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.4;
+  color: var(--text);
+  font-style: italic;
+  margin-bottom: 32px;
+}
+
+.founder-attr {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.founder-attr::before {
+  content: '';
+  display: block;
+  width: 16px;
+  height: 1px;
+  background: var(--border-hover);
+}
+
+.soficca-block {
+  padding: 32px;
+  border: 1px solid var(--border-accent);
+  border-left: 2px solid var(--green);
+  background: var(--bg-1);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.soficca-block-title {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 18px;
+  opacity: 0.85;
+}
+
+.soficca-block-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+}
+
+.soficca-link {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: gap 0.25s ease, opacity 0.2s;
+  opacity: 0.85;
+}
+.soficca-link:hover { gap: 12px; opacity: 1; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 36px 64px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer-logo {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-logo:hover { color: var(--text); }
+
+.footer-copy {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ── ANIMATIONS ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal:nth-child(2) { transition-delay: 0.08s; }
+.reveal:nth-child(3) { transition-delay: 0.16s; }
+.reveal:nth-child(4) { transition-delay: 0.24s; }
+
+/* ── DEMO PREVIEW ── */
+.demo-section {
+  padding: 100px 64px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-3);
+}
+
+.demo-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.demo-intro {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.demo-intro .section-tag {
+  justify-content: center;
+}
+
+.demo-frame {
+  max-width: 1080px;
+  width: 100%;
+  margin: 48px auto 0;
+  padding: 28px;
+  background: #F5F1E8;
+  border: 1px solid rgba(40,52,45,0.11);
+  border-radius: 26px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.04);
+  position: relative;
+}
+
+.demo-frame::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 28px;
+  right: 28px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(94,124,99,0.22), transparent);
+}
+
+.demo-viewport {
+  max-width: 820px;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #EDE9E1;
+  aspect-ratio: 1.45 / 1;
+  position: relative;
+}
+
+.demo-viewport img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.demo-cta {
+  margin-top: 28px;
+}
+
+.demo-cta .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 100px 28px 72px; }
+  .section, .how-section, .roadmap-section, .market-section, .founder-section, .demo-section { padding: 80px 24px; }
+  .demo-frame { border-radius: 12px; padding: 8px; margin-top: 32px; }
+  .demo-viewport { border-radius: 8px; aspect-ratio: 2 / 1; }
+  .two-col, .how-grid, .market-inner, .founder-inner { grid-template-columns: 1fr; gap: 48px; }
+  .phases-grid { grid-template-columns: 1fr; }
+  .hero-headline { font-size: clamp(2rem, 6vw, 2.6rem); }
+  .section-headline { font-size: clamp(1.5rem, 5vw, 2rem); }
+  footer { padding: 28px 24px; flex-direction: column; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="./soficca" class="nav-logo jakarta">Soficca</a>
+  <span class="nav-center">Pen</span>
+  <a href="./soficca" class="nav-link">Soficca Roadmap →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">First Workflow Built on Soficca</div>
+    <h1 class="hero-headline">Structured treatment. Longitudinal care.</h1>
+    <p class="hero-sub">Pen starts with hair loss treatment in Latin America, but the real value is not just helping users begin. It is building a care flow that carries patient context forward across every review.</p>
+    <p class="hero-body">
+      Pen is the first real product built on Soficca — a monetizable entry point that validates governed intake, clinical decision logic, and follow-up over time with real users.
+    </p>
+    <div class="hero-cta">
+      <a href="#how" class="btn-primary">See how Pen works →</a>
+      <a href="#bridge" class="btn-ghost">Why this matters for Soficca</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="data-header">
+      <span>decision_report · v0.3</span>
+      <span style="color: #3E7C59;">● LIVE</span>
+    </div>
+
+    <div class="data-row">
+      <span class="data-key">Product</span>
+      <span class="data-val">Pen — Men's Health Clinic</span>
+      <span class="data-status status-live">Live</span>
+    </div>
+    <div class="data-row">
+      <span class="data-key">Market</span>
+      <span class="data-val">Mexico · Latin America</span>
+      <span class="data-status status-ok">Phase 1</span>
+    </div>
+    <div class="data-row">
+      <span class="data-key">Condition</span>
+      <span class="data-val">Hair loss — androgenic alopecia</span>
+      <span class="data-status status-ok">—</span>
+    </div>
+    <div class="data-row">
+      <span class="data-key">Powered by</span>
+      <span class="data-val">Soficca</span>
+      <span class="data-status status-clear">Active</span>
+    </div>
+    <div class="data-row">
+      <span class="data-key">Safety Gate</span>
+      <span class="data-val">Contraindication screening</span>
+      <span class="data-status status-clear">Clear</span>
+    </div>
+    <div class="data-row">
+      <span class="data-key">Routing</span>
+      <span class="data-val">Deterministic · Auditable</span>
+      <span class="data-status status-ok">—</span>
+    </div>
+
+    <div class="decision-block">
+      <div class="decision-title">// Sample Decision Output</div>
+      <div class="decision-line"><strong>status:</strong> DECIDED</div>
+      <div class="decision-line"><strong>path:</strong> PATH_MEDS_OK</div>
+      <div class="decision-line"><strong>flags:</strong> none</div>
+      <div class="decision-line"><strong>safety:</strong> CLEAR · no triggers</div>
+      <div class="decision-line"><strong>policy_version:</strong> v0.3</div>
+      <div class="decision-line"><strong>recommendation:</strong> proceed to clinician review</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER BAND -->
+<div class="band">
+  <div class="band-inner">
+    <span class="band-item">Structured intake</span>
+    <span class="band-item">Safety policy enforcement</span>
+    <span class="band-item">Deterministic routing</span>
+    <span class="band-item">Clinician-reviewed</span>
+    <span class="band-item">Longitudinal decision context</span>
+    <span class="band-item">Versionable decisions</span>
+    <span class="band-item">Auditable trace</span>
+    <span class="band-item">100% online</span>
+    <span class="band-item">Structured intake</span>
+    <span class="band-item">Safety policy enforcement</span>
+    <span class="band-item">Deterministic routing</span>
+    <span class="band-item">Clinician-reviewed</span>
+    <span class="band-item">Longitudinal decision context</span>
+    <span class="band-item">Versionable decisions</span>
+    <span class="band-item">Auditable trace</span>
+    <span class="band-item">100% online</span>
+  </div>
+</div>
+
+<!-- THE PROBLEM -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-tag">The Problem</div>
+    <div class="two-col">
+      <div class="reveal">
+        <h2 class="section-headline">Access is only the beginning. Care is still fragmented.</h2>
+        <p class="section-body" style="margin-bottom: 16px;">
+          The gap is not only access to treatment. It is what happens after treatment begins.
+        </p>
+        <p class="section-body" style="margin-bottom: 16px;">
+          Medication access may be fragmented, but the bigger failure is continuity: follow-up, progress tracking, and next-step care are often manual, inconsistent, or missing.
+        </p>
+        <p class="section-body">
+          Online access is starting to exist, but continuity still does not. That leaves room for a more structured treatment workflow.
+        </p>
+      </div>
+      <div class="stat-row reveal">
+        <div class="stat-block stat-block--text">
+          <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Large underserved category</div>
+          <div class="stat-label">Hair loss is common, but structured continuity in treatment is still limited across LatAm.</div>
+        </div>
+        <div class="stat-block stat-block--text">
+          <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">No structured follow-up layer</div>
+          <div class="stat-label">Most current options help users begin treatment, but not carry case history forward.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE LEARNED -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-tag">What We Learned</div>
+    <div class="two-col">
+      <div class="reveal">
+        <h2 class="section-headline">50+ real intakes reshaped the product</h2>
+        <div style="font-family: 'Syne Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); opacity: 0.72; margin-bottom: 16px;">What early cases made clear</div>
+        <p class="section-body" style="margin-bottom: 16px;">
+          The real gap is not only access to treatment, but what happens after treatment begins.
+        </p>
+        <p class="section-body" style="margin-bottom: 16px;">
+          Across early cases, we kept seeing the same pattern: fragmented access, weak medication control, and follow-up that is often manual or missing.
+        </p>
+        <p class="section-body">
+          That is what pushed Pen beyond one-time evaluation and toward a structured longitudinal workflow.
+        </p>
+      </div>
+      <div class="stat-row reveal">
+        <div class="stat-block">
+          <div class="stat-num">01</div>
+          <div>
+            <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Decision-ready intake</div>
+            <div class="stat-label">Symptoms, history, goals, and treatment context are captured in a governed, decision-ready format.</div>
+          </div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num">02</div>
+          <div>
+            <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Follow-up built in</div>
+            <div class="stat-label">Pen does not stop after evaluation. It is designed around checkpoints that make follow-up part of the product.</div>
+          </div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num">03</div>
+          <div>
+            <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Better continuity</div>
+            <div class="stat-label">Each follow-up adds clinical context, making future reviews and care decisions more informed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW PEN WORKS -->
+<section class="how-section" id="how">
+  <div class="how-grid">
+    <div>
+      <div class="section-tag">How Pen Works</div>
+      <h2 class="section-headline reveal">From intake to treatment to follow-up</h2>
+      <p class="section-body reveal" style="margin-bottom:36px">Pen is a real treatment path: governed intake, decision logic, treatment selection, and follow-up checkpoints over time.</p>
+
+      <div class="steps">
+        <div class="step reveal">
+          <span class="step-num">01 //</span>
+          <div>
+            <div class="step-title">Guided intake</div>
+            <div class="step-body">Users complete a guided intake covering symptoms, history, goals, and relevant treatment context.</div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <span class="step-num">02 //</span>
+          <div>
+            <div class="step-title">Decision layer</div>
+            <div class="step-body">Soficca evaluates the case, applies eligibility and safety logic, and produces a governed decision output.</div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <span class="step-num">03 //</span>
+          <div>
+            <div class="step-title">Treatment path</div>
+            <div class="step-body">Users receive a treatment path designed for continuity, not just initial conversion.</div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <span class="step-num">04 //</span>
+          <div>
+            <div class="step-title">Follow-up over time</div>
+            <div class="step-body">Baseline, week 6, month 3, and month 6 checkpoints build cumulative case history over time.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="output-panel">
+        <div class="output-header">
+          <span>Decision Report</span>
+          <span class="data-status status-clear" style="font-size:9px">DECIDED</span>
+        </div>
+
+        <div class="output-section">
+          <div class="output-section-label">// input_case</div>
+          <div class="output-fields">
+            <div class="field"><span class="field-key">age</span><span class="field-val">29</span></div>
+            <div class="field"><span class="field-key">concern</span><span class="field-val">hair_loss</span></div>
+            <div class="field"><span class="field-key">contraindications</span><span class="field-val green">none_reported</span></div>
+            <div class="field"><span class="field-key">goal</span><span class="field-val">slow_progression · improve_density</span></div>
+          </div>
+        </div>
+
+        <div class="output-section">
+          <div class="output-section-label">// safety_gate</div>
+          <div class="output-fields">
+            <div class="field"><span class="field-key">status</span><span class="field-val green">CLEAR</span></div>
+            <div class="field"><span class="field-key">action</span><span class="field-val green">NONE</span></div>
+            <div class="field"><span class="field-key">triggers</span><span class="field-val">none</span></div>
+          </div>
+        </div>
+
+        <div class="output-section">
+          <div class="output-section-label">// decision</div>
+          <div class="output-fields">
+            <div class="field"><span class="field-key">status</span><span class="field-val green">DECIDED</span></div>
+            <div class="field"><span class="field-key">path</span><span class="field-val amber">PATH_MEDS_OK</span></div>
+            <div class="field"><span class="field-key">flags</span><span class="field-val">none</span></div>
+            <div class="field"><span class="field-key">recommendation</span><span class="field-val">proceed → clinician_review</span></div>
+          </div>
+        </div>
+
+        <div class="output-section" style="margin-bottom:0">
+          <div class="output-section-label">// trace</div>
+          <div class="output-fields">
+            <div class="field"><span class="field-key">rules_evaluated</span><span class="field-val">eligibility · contraindication · safety</span></div>
+            <div class="field"><span class="field-key">evidence_source</span><span class="field-val">user_intake</span></div>
+            <div class="field"><span class="field-key">policy_version</span><span class="field-val amber">v0.3</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW PREVIEW -->
+<section class="demo-section">
+  <div class="demo-inner">
+    <div class="demo-intro">
+      <div class="section-tag">Workflow Preview</div>
+      <h2 class="section-headline reveal">See the workflow in motion</h2>
+      <p class="section-body reveal">A real checkpoint inside Pen's treatment flow. This is where follow-up becomes visible over time.</p>
+    </div>
+    <div class="demo-frame reveal">
+      <div class="demo-viewport">
+        <a href="https://pendemo.soficca.com/" target="_blank" rel="noopener noreferrer" style="display:block; height:100%;"><img src="./pen-demo.png" alt="Pen — Month 3 checkpoint inside the longitudinal treatment flow" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="demo-cta reveal">
+      <a href="https://pendemo.soficca.com/" class="btn-primary" target="_blank" rel="noopener noreferrer">View live Pen demo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY PEN IS DIFFERENT -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-tag">Why Pen Is Different</div>
+    <div class="two-col">
+      <div class="reveal">
+        <h2 class="section-headline">The wedge is treatment. The value compounds through continuity.</h2>
+        <p class="section-body">
+          Most digital treatment options help users start. Pen is being built to make each next review more informed by preserving case history and review context over time.
+        </p>
+      </div>
+      <div class="stat-row reveal">
+        <div class="stat-block stat-block--text">
+          <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Persistent case history</div>
+          <div class="stat-label">Every intake and follow-up produces a decision record that persists across reviews.</div>
+        </div>
+        <div class="stat-block stat-block--text">
+          <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Follow-up across checkpoints</div>
+          <div class="stat-label">Baseline, week 6, month 3, month 6 — continuity is part of the product.</div>
+        </div>
+        <div class="stat-block stat-block--text">
+          <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Reusable safety logic</div>
+          <div class="stat-label">Eligibility, contraindication, and routing logic that applies consistently across cases.</div>
+        </div>
+        <div class="stat-block stat-block--text">
+          <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Built on Soficca</div>
+          <div class="stat-label">The decision layer underneath Pen is designed to be reusable across additional care environments.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS MODEL -->
+<section class="how-section">
+  <div class="how-grid">
+    <div>
+      <div class="section-tag">Business Model</div>
+      <h2 class="section-headline reveal">Monetized through Pen. Validated through real use.</h2>
+      <p class="section-body reveal" style="margin-bottom:28px">
+        Pen is the first monetized product built on Soficca. The initial pricing is designed to be accessible in Latin America while covering intake, treatment, and follow-up.
+      </p>
+      <div class="reveal" style="padding-top: 24px; border-top: 1px solid rgba(40,52,45,0.09);">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 600; letter-spacing: -0.04em; color: var(--text);">$24<span style="font-size: 0.9rem; font-weight: 400; color: var(--text-mid); letter-spacing: -0.01em;">/month</span></span>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-top: 10px; opacity: 0.75;">Starting price · Latin America</div>
+      </div>
+    </div>
+
+    <div class="stat-row reveal">
+      <div class="stat-block stat-block--text">
+        <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Clinical evaluation</div>
+        <div class="stat-label">Decision-ready intake and eligibility assessment.</div>
+      </div>
+      <div class="stat-block stat-block--text">
+        <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Treatment path</div>
+        <div class="stat-label">Continuity-designed path from evaluation to care.</div>
+      </div>
+      <div class="stat-block stat-block--text">
+        <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Follow-up over time</div>
+        <div class="stat-label">Scheduled checkpoints from baseline through month 6.</div>
+      </div>
+      <div class="stat-block stat-block--text">
+        <div class="stat-label" style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Treatment through licensed partner labs</div>
+        <div class="stat-label">As applicable, prescribed through clinician review and partner pharmacy fulfillment.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EARLY EXECUTION -->
+<section class="market-section">
+  <div class="market-inner">
+    <div>
+      <div class="section-tag">Early Execution</div>
+      <h2 class="section-headline reveal">Built fast. Grounded in real use.</h2>
+      <p class="section-body reveal" style="margin-top:16px">
+        From first build to real intake, Pen has been developed as a functioning product rather than a deck concept — combining real intake, decision logic, and follow-up design.
+      </p>
+    </div>
+
+    <div class="market-tags">
+      <div class="market-tag-item reveal">
+        <div>
+          <div class="market-tag-title">50+ real intakes completed</div>
+          <div class="market-tag-sub">Real users, real decision outputs, real data — not simulations.</div>
+        </div>
+        <span class="market-arrow">→</span>
+      </div>
+      <div class="market-tag-item reveal">
+        <div>
+          <div class="market-tag-title">First workflow live</div>
+          <div class="market-tag-sub">Pen is operational with governed intake, decision logic, and clinician review.</div>
+        </div>
+        <span class="market-arrow">→</span>
+      </div>
+      <div class="market-tag-item reveal">
+        <div>
+          <div class="market-tag-title">Built from November 2025 to April 2026</div>
+          <div class="market-tag-sub">Product, infrastructure, and care flow designed and deployed in under six months.</div>
+        </div>
+        <span class="market-arrow">→</span>
+      </div>
+      <div class="market-tag-item reveal">
+        <div>
+          <div class="market-tag-title">Clinical audit &amp; regulatory advisor onboarded</div>
+          <div class="market-tag-sub">Advisory support for documentation discipline, audit-readiness, and regulatory alignment.</div>
+        </div>
+        <span class="market-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVISORY -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-tag">Advisory Support</div>
+    <div class="two-col">
+      <div class="reveal">
+        <h2 class="section-headline">Clinical audit &amp; regulatory advisor</h2>
+        <p class="section-body">
+          Pen's clinical audit and regulatory alignment is supported by an external advisor with direct healthcare operations experience.
+        </p>
+      </div>
+      <div class="reveal">
+        <div class="soficca-block">
+          <div class="soficca-block-title">// Carlos Pérez</div>
+          <div class="decision-line" style="margin-bottom: 16px;"><strong>Role:</strong> Clinical Audit &amp; Regulatory Advisor</div>
+          <p class="soficca-block-text" style="margin-bottom: 0;">
+            10+ years in healthcare operations and regulatory processes in Colombia. Currently at Nueva EPS. Advises Soficca on documentation discipline, audit-readiness, and regulatory alignment.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY THIS MATTERS -->
+<section class="founder-section" id="bridge">
+  <div class="founder-inner">
+    <div>
+      <div class="section-tag">Why This Matters</div>
+      <h2 class="section-headline reveal">Pen is the first workflow. Soficca is the layer underneath.</h2>
+      <p class="section-body reveal" style="margin-bottom: 16px;">
+        Pen began as a treatment workflow, but building it made the underlying need clear: structured routing, follow-up logic, and continuity could not remain one-off product decisions.
+      </p>
+      <p class="section-body reveal">
+        Soficca is the reusable decision layer that emerged underneath that workflow.
+      </p>
+    </div>
+
+    <div class="soficca-block reveal">
+      <div class="soficca-block-title">// Soficca · Clinical Decision Infrastructure</div>
+      <p class="soficca-block-text">
+        Pen validates the decision layer. Soficca is the infrastructure that scales it — the same governed intake, safety logic, and care context applied across additional conditions and environments.
+      </p>
+      <a href="./soficca" class="soficca-link">See Soficca →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <a href="./soficca" class="footer-logo jakarta">Soficca</a>
+    <span class="footer-copy">© 2026</span>
+  </div>
+  <a href="./soficca" class="nav-link">Soficca Roadmap →</a>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
