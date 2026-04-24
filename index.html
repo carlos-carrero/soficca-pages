@@ -1289,25 +1289,35 @@
     border-radius: 6px;
   }
 
+  .proof-strip-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
   .proof-strip-metric {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--ink);
-    line-height: 1.3;
-    margin-bottom: 8px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--ink-secondary);
+    line-height: 1.4;
+    margin-bottom: 12px;
   }
 
   .proof-strip-detail {
     font-size: 0.78rem;
     line-height: 1.55;
-    color: var(--muted);
+    color: var(--ink-secondary);
+    opacity: 0.72;
   }
 
   .proof-strip-footer {
-    margin-top: 32px;
+    margin-top: 24px;
     font-size: 0.65rem;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--muted);
   }
@@ -1382,15 +1392,18 @@
 <div class="proof-strip fade-in">
   <div class="proof-strip-grid">
     <div class="proof-strip-card">
-      <div class="proof-strip-metric">12 clinical scenarios tested</div>
+      <div class="proof-strip-num">12</div>
+      <div class="proof-strip-metric">clinical scenarios tested</div>
       <div class="proof-strip-detail">12 passed</div>
     </div>
     <div class="proof-strip-card">
-      <div class="proof-strip-metric">5 deterministic decision routes</div>
+      <div class="proof-strip-num">5</div>
+      <div class="proof-strip-metric">deterministic decision routes</div>
       <div class="proof-strip-detail">From emergency override to routine review</div>
     </div>
     <div class="proof-strip-card">
-      <div class="proof-strip-metric">100% structured compliance</div>
+      <div class="proof-strip-num">100%</div>
+      <div class="proof-strip-metric">structured compliance</div>
       <div class="proof-strip-detail">Validated against a versioned, machine-enforced contract</div>
     </div>
   </div>
