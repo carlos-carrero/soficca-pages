@@ -1314,8 +1314,15 @@
     opacity: 0.72;
   }
 
+  .proof-strip-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-top: 28px;
+    max-width: 960px;
+  }
+
   .proof-strip-footer {
-    margin-top: 24px;
     font-size: 0.65rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -1323,8 +1330,6 @@
   }
 
   .proof-strip-bridge {
-    display: inline-block;
-    margin-top: 24px;
     font-family: 'Space Grotesk', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
@@ -1351,6 +1356,7 @@
     .rule-section { padding: 0 24px; }
     .proof-strip { padding: 56px 24px; }
     .proof-strip-grid { grid-template-columns: 1fr; }
+    .proof-strip-row { flex-direction: column; gap: 12px; }
     .roadmap { padding: 80px 24px; }
     footer { padding: 28px 24px; flex-direction: column; gap: 12px; text-align: center; }
     .steps { grid-template-columns: 1fr 1fr; }
@@ -1423,8 +1429,10 @@
       <div class="proof-strip-detail">Validated against a versioned, machine-enforced contract</div>
     </div>
   </div>
-  <div class="proof-strip-footer">Safety-first by design</div>
-  <a href="#cardio-demo" class="proof-strip-bridge">See the live workflow →</a>
+  <div class="proof-strip-row">
+    <div class="proof-strip-footer">Safety-first by design</div>
+    <a href="#cardio-demo" class="proof-strip-bridge">View the clinical workflow →</a>
+  </div>
 </div>
 
 <!-- DIVIDER -->
