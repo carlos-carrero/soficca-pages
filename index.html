@@ -1323,11 +1323,20 @@
   }
 
   .proof-strip-bridge {
+    display: inline-block;
     margin-top: 14px;
-    font-size: 0.78rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
     color: var(--muted);
-    line-height: 1.5;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(145,140,134,0.25);
+    padding-bottom: 3px;
+    transition: color 0.25s ease, border-color 0.25s ease;
+    cursor: pointer;
   }
+  .proof-strip-bridge:hover { color: var(--ink); border-color: var(--ink); }
 
   @media (max-width: 900px) {
     .hero { padding: 80px 24px 56px; min-height: auto; }
@@ -1415,7 +1424,7 @@
     </div>
   </div>
   <div class="proof-strip-footer">Safety-first by design</div>
-  <div class="proof-strip-bridge">See how these decisions are produced in a live workflow.</div>
+  <a href="#cardio-demo" class="proof-strip-bridge">See the live workflow →</a>
 </div>
 
 <!-- DIVIDER -->
@@ -1607,7 +1616,7 @@
 </div>
 
 <!-- CARDIO DEMO -->
-<section class="cardio-demo">
+<section id="cardio-demo" class="cardio-demo">
 
   <div class="cardio-content-row fade-in">
     <div class="cardio-left">
