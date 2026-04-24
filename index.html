@@ -1269,6 +1269,49 @@
     color: rgba(255,255,255,0.62);
   }
 
+  /* ── TECHNICAL PROOF STRIP ── */
+  .proof-strip {
+    padding: 72px 56px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .proof-strip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 960px;
+  }
+
+  .proof-strip-card {
+    padding: 28px 24px;
+    background: var(--warm-white);
+    border: 1px solid var(--rule-light);
+    border-radius: 6px;
+  }
+
+  .proof-strip-metric {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .proof-strip-detail {
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .proof-strip-footer {
+    margin-top: 32px;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
   @media (max-width: 900px) {
     .hero { padding: 80px 24px 56px; min-height: auto; }
     .hero-headline { font-size: clamp(2.75rem, 10vw, 4.25rem); letter-spacing: -0.04em; }
@@ -1280,6 +1323,8 @@
     .compounding { grid-template-columns: 1fr; padding: 80px 24px; }
     header { padding: 14px 24px; }
     .rule-section { padding: 0 24px; }
+    .proof-strip { padding: 56px 24px; }
+    .proof-strip-grid { grid-template-columns: 1fr; }
     .roadmap { padding: 80px 24px; }
     footer { padding: 28px 24px; flex-direction: column; gap: 12px; text-align: center; }
     .steps { grid-template-columns: 1fr 1fr; }
@@ -1332,6 +1377,25 @@
     <span>Versionable</span>
   </div>
 </section>
+
+<!-- TECHNICAL PROOF -->
+<div class="proof-strip fade-in">
+  <div class="proof-strip-grid">
+    <div class="proof-strip-card">
+      <div class="proof-strip-metric">12 clinical scenarios tested</div>
+      <div class="proof-strip-detail">12 passed</div>
+    </div>
+    <div class="proof-strip-card">
+      <div class="proof-strip-metric">5 deterministic decision routes</div>
+      <div class="proof-strip-detail">From emergency override to routine review</div>
+    </div>
+    <div class="proof-strip-card">
+      <div class="proof-strip-metric">100% structured compliance</div>
+      <div class="proof-strip-detail">Validated against a versioned, machine-enforced contract</div>
+    </div>
+  </div>
+  <div class="proof-strip-footer">Safety-first by design</div>
+</div>
 
 <!-- DIVIDER -->
 <div class="rule-section">
