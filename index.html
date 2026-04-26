@@ -1269,10 +1269,36 @@
     color: rgba(255,255,255,0.62);
   }
 
+  /* ── STRATEGIC CLARIFICATION ── */
+  .strategic-line {
+    padding: 0 56px;
+    margin-top: -1px;
+    border-top: 1px solid var(--rule);
+    padding-top: 40px;
+    padding-bottom: 0;
+  }
+
+  .strategic-line p {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--ink-secondary);
+    max-width: 560px;
+  }
+
   /* ── TECHNICAL PROOF STRIP ── */
   .proof-strip {
     padding: 72px 56px;
-    border-top: 1px solid var(--rule);
+    padding-top: 40px;
+    border-top: none;
+  }
+
+  .proof-strip-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
   }
 
   .proof-strip-grid {
@@ -1353,7 +1379,8 @@
     .compounding { grid-template-columns: 1fr; padding: 80px 24px; }
     header { padding: 14px 24px; }
     .rule-section { padding: 0 24px; }
-    .proof-strip { padding: 56px 24px; }
+    .strategic-line { padding: 0 24px; padding-top: 32px; }
+    .proof-strip { padding: 56px 24px; padding-top: 32px; }
     .proof-strip-grid { grid-template-columns: 1fr; }
     .proof-strip-row { gap: 12px; }
     .roadmap { padding: 80px 24px; }
@@ -1397,7 +1424,7 @@
       Soficca turns structured patient signals, safety logic, and follow-up context into governed next-step decisions across workflows.
     </p>
     <div class="hero-cta-group">
-      <a href="https://pen.soficca.com/" class="hero-cta">See the first workflow →</a>
+      <a href="https://pen.soficca.com/" class="hero-cta">Explore the first workflow →</a>
       <a href="#roadmap" class="hero-secondary">See the roadmap</a>
     </div>
   </div>
@@ -1409,8 +1436,14 @@
   </div>
 </section>
 
+<!-- STRATEGIC CLARIFICATION -->
+<div class="strategic-line fade-in">
+  <p>Soficca is the clinical decision infrastructure. Pen is the first workflow built on top of it.</p>
+</div>
+
 <!-- TECHNICAL PROOF -->
 <div class="proof-strip fade-in">
+  <div class="proof-strip-eyebrow">Built, Tested, and Structured</div>
   <div class="proof-strip-grid">
     <div class="proof-strip-card">
       <div class="proof-strip-num">12</div>
