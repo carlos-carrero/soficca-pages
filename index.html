@@ -6,7 +6,8 @@
 <title>Soficca — Clinical Decision Infrastructure</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Syne+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="description" content="Soficca is clinical decision infrastructure. Cardio Pilot is the live proof — AI signal extraction with governed routing, safety overrides, and audit-ready output.">
 
 <style>
   :root {
@@ -49,7 +50,7 @@
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
     pointer-events: none;
-    z-index: 9999;
+    z-index: 1;
     opacity: 0.3;
   }
 
@@ -169,9 +170,13 @@
     line-height: 1.7;
     color: var(--ink-secondary);
     max-width: 620px;
-    margin-top: 36px;
-    margin-bottom: 0;
+    margin-top: 40px;
+    margin-bottom: 20px;
     font-weight: 400;
+  }
+  .hero-body + .hero-body {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .scroll-cue {
@@ -910,7 +915,7 @@
 
   .proof-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1px;
     background: var(--rule-light);
     border: 1px solid var(--rule-light);
@@ -1103,10 +1108,12 @@
   .phase:not(.phase-active) .phase-title { color: rgba(255,255,255,0.72); }
   .phase:not(.phase-active) .phase-body { color: rgba(255,255,255,0.38); }
 
-  /* ── CARDIO DEMO ── */
-  .cardio-demo {
-    padding: 120px 72px 128px;
-    border-top: 1px solid var(--rule);
+  /* ── CARDIO PILOT ── */
+  .cardio-pilot {
+    padding: 160px 72px 172px;
+    background: #0d0f0e;
+    color: var(--paper);
+    position: relative;
   }
 
   .cardio-content-row {
@@ -1117,7 +1124,14 @@
   }
 
   .cardio-right {
-    padding-top: 6px;
+    padding-top: 0;
+  }
+
+  .cardio-pilot .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1.5rem;
   }
 
   .cardio-headline {
@@ -1126,147 +1140,139 @@
     font-weight: 600;
     line-height: 1.08;
     letter-spacing: -0.035em;
-    margin-bottom: 40px;
-    color: var(--ink);
+    margin-bottom: 1.5rem;
+    color: #fff;
     max-width: 560px;
   }
 
   .cardio-body {
     font-size: 1rem;
     line-height: 1.75;
-    color: var(--ink-secondary);
+    color: rgba(255,255,255,0.65);
     max-width: 580px;
-    margin-bottom: 32px;
-  }
-
-  .cardio-features {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    background: var(--rule-light);
-    border: 1px solid var(--rule-light);
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 0;
-  }
-
-  .cardio-feature {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    min-height: 64px;
-    padding: 20px 24px;
-    background: var(--warm-white);
-    border-left: 2px solid var(--rule-light);
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 500;
-    color: var(--ink);
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: opacity 0.4s ease, transform 0.4s ease, background 0.3s ease, border-color 0.3s ease;
-  }
-  .cardio-feature.visible { opacity: 1; transform: translateX(0); }
-  .cardio-feature:hover { background: #fff; border-left-color: var(--accent); }
-  .cardio-feature:nth-child(2) { transition-delay: 0.06s; }
-  .cardio-feature:nth-child(3) { transition-delay: 0.12s; }
-  .cardio-feature:nth-child(4) { transition-delay: 0.18s; }
-
-  .cardio-feature-dot {
-    width: 5px;
-    height: 5px;
-    background: var(--accent);
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-top: 5px;
-  }
-
-  .cardio-feature-title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    margin-bottom: 4px;
-  }
-
-  .cardio-feature-desc {
-    font-size: 0.8rem;
-    font-weight: 400;
-    line-height: 1.6;
-    color: var(--ink-secondary);
+    margin-bottom: 1.5rem;
   }
 
   .cardio-cta {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-top: 32px;
+    margin-top: 2rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: #fff;
+    background: var(--accent);
+    height: 46px;
+    padding: 0 22px;
     text-decoration: none;
-    padding: 3px 0;
-    border-bottom: 1px solid rgba(145,140,134,0.25);
-    transition: color 0.25s ease, border-color 0.25s ease;
+    border: 1px solid var(--accent-hover);
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.12);
   }
-  .cardio-cta:hover { color: var(--ink); border-color: var(--ink); }
+  .cardio-cta:hover { background: var(--accent-hover); }
+
+  .cardio-features {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 10px;
+    padding: 2rem;
+  }
+
+  .cardio-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .cardio-feature:last-child { border-bottom: none; }
+
+  .cardio-feature-dot {
+    width: 5px;
+    height: 5px;
+    background: rgba(45, 106, 79, 0.85);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .cardio-feature-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.92);
+    margin-bottom: 4px;
+  }
+
+  .cardio-feature-desc {
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.50);
+  }
 
   .cardio-artifact-row {
-    margin-top: 64px;
+    margin-top: 96px;
   }
 
-  .cardio-preview {
+  .cardio-stage {
+    background: #141718;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 2.75rem 2.25rem 2rem;
     position: relative;
-    isolation: isolate;
-    background: #0f0e0d;
-    border-radius: 16px;
-    padding: 10px;
-    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .stage-eyebrow {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.35);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 1.25rem;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .cardio-stage-img {
+    display: block;
+    max-width: 90%;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.10);
     box-shadow:
-      0 1px 3px rgba(0,0,0,0.08),
-      0 8px 24px rgba(0,0,0,0.10),
-      0 24px 60px rgba(0,0,0,0.14);
-  }
-
-  .cardio-preview::before {
-    content: '';
-    position: absolute;
-    inset: 40px -12px -28px;
-    background: rgba(0,0,0,0.12);
-    border-radius: 28px;
-    filter: blur(52px);
-    z-index: -1;
-  }
-
-  .cardio-preview-frame {
-    width: 100%;
-    border-radius: 10px;
+      0 0 0 1px rgba(0,0,0,0.3),
+      0 10px 48px rgba(0,0,0,0.55),
+      0 2px 8px rgba(0,0,0,0.4),
+      0 0 100px rgba(255,255,255,0.035);
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.07);
   }
 
-  .cardio-preview-img {
+  .cardio-stage-img img {
     width: 100%;
     height: auto;
     display: block;
   }
 
-  .cardio-preview-footer {
-    height: 32px;
-    padding: 0 14px;
+  .process-rail {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    border-top: 1px solid rgba(255,255,255,0.09);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    line-height: 1;
+    max-width: 90%;
+    margin: 1.5rem auto 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .process-rail span {
+    font-size: 0.68rem;
     letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.62);
+    color: rgba(255,255,255,0.42);
+    font-family: 'JetBrains Mono', monospace;
   }
 
   /* ── STRATEGIC CLARIFICATION ── */
@@ -1303,13 +1309,12 @@
 
   .proof-strip-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-    max-width: 1060px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
   }
 
   .proof-strip-card {
-    padding: 36px 30px;
+    padding: 30px 24px;
     background: var(--warm-white);
     border: 1px solid var(--rule-light);
     border-radius: 6px;
@@ -1317,11 +1322,12 @@
 
   .proof-strip-num {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.7rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--ink);
-    line-height: 1.15;
-    margin-bottom: 6px;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
   }
 
   .proof-strip-metric {
@@ -1381,7 +1387,7 @@
     .rule-section { padding: 0 24px; }
     .strategic-line { padding: 0 24px; padding-top: 32px; }
     .proof-strip { padding: 56px 24px; padding-top: 32px; }
-    .proof-strip-grid { grid-template-columns: 1fr; }
+    .proof-strip-grid { grid-template-columns: 1fr 1fr; }
     .proof-strip-row { gap: 12px; }
     .roadmap { padding: 80px 24px; }
     footer { padding: 28px 24px; flex-direction: column; gap: 12px; text-align: center; }
@@ -1392,10 +1398,14 @@
     .evidence-section { padding: 80px 24px; }
     .evidence-grid { grid-template-columns: 1fr; }
     .evidence-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .cardio-demo { padding: 80px 24px; }
+    .cardio-pilot { padding: 80px 24px 96px; }
     .cardio-content-row { grid-template-columns: 1fr; gap: 48px; }
-    .cardio-headline { font-size: clamp(2rem, 8vw, 3rem); max-width: none; }
-    .cardio-body { font-size: 1rem; max-width: none; }
+    .cardio-headline { font-size: clamp(1.6rem, 7vw, 2.4rem); max-width: none; }
+    .cardio-body { font-size: 0.95rem; max-width: none; }
+    .cardio-stage { padding: 1.5rem; border-radius: 10px; }
+    .cardio-stage-img { max-width: 100%; border-radius: 6px; }
+    .process-rail { max-width: 100%; flex-wrap: wrap; gap: 0.5rem 1rem; }
+    .cardio-artifact-row { margin-top: 56px; }
     .section-bridge { padding: 0 24px; }
   }
 </style>
@@ -1405,7 +1415,7 @@
 <!-- HEADER -->
 <header>
   <a href="#" class="logo">Soficca</a>
-  <a href="https://pen.soficca.com/" class="header-link">← Back to Pen</a>
+  <a href="https://cardio.pilot.soficca.com" class="header-link" target="_blank" rel="noopener noreferrer">View Cardio Pilot</a>
 </header>
 
 <!-- HERO -->
@@ -1417,15 +1427,15 @@
       decision layer<br>
       for <em>healthcare</em>
     </h1>
-    <p class="hero-body" style="margin-top: 40px; margin-bottom: 20px;">
-      Healthcare does not only have an information problem. It has a repeated decision problem.
+    <p class="hero-body">
+      Soficca turns messy clinical narratives into structured signals, governed routes, and audit-ready reports — using AI for signal extraction and deterministic rules for clinical routing.
     </p>
-    <p class="hero-body" style="margin-top: 0;">
-      Soficca turns structured patient signals, safety logic, and follow-up context into governed next-step decisions across workflows.
+    <p class="hero-body">
+      The Cardio Pilot is live. The infrastructure is real.
     </p>
     <div class="hero-cta-group">
-      <a href="https://pen.soficca.com/" class="hero-cta">Explore the first workflow →</a>
-      <a href="#roadmap" class="hero-secondary">See the roadmap</a>
+      <a href="https://cardio.pilot.soficca.com" class="hero-cta">View Cardio Pilot →</a>
+      <a href="https://pen.soficca.com/" class="hero-secondary">Explore Pen</a>
     </div>
   </div>
 
@@ -1438,34 +1448,77 @@
 
 <!-- STRATEGIC CLARIFICATION -->
 <div class="strategic-line fade-in">
-  <p>Soficca is the clinical decision infrastructure. Pen is the first workflow built on top of it.</p>
+  <p>Soficca is the clinical decision infrastructure. Cardio Pilot proves the engine. Pen is the first commercial workflow built on it.</p>
 </div>
 
 <!-- TECHNICAL PROOF -->
 <div class="proof-strip fade-in">
-  <div class="proof-strip-eyebrow">Built, Tested, and Structured</div>
+  <div class="proof-strip-eyebrow">Live Infrastructure</div>
   <div class="proof-strip-grid">
     <div class="proof-strip-card">
-      <div class="proof-strip-num">12</div>
-      <div class="proof-strip-metric">clinical scenarios tested</div>
-      <div class="proof-strip-detail">12 passed</div>
+      <div class="proof-strip-num">Live Cardio Pilot</div>
+      <div class="proof-strip-metric">Deployed cardiovascular decision workflow</div>
     </div>
     <div class="proof-strip-card">
-      <div class="proof-strip-num">5</div>
-      <div class="proof-strip-metric">deterministic decision routes</div>
-      <div class="proof-strip-detail">From emergency override to routine review</div>
+      <div class="proof-strip-num">12/12 Golden Cases</div>
+      <div class="proof-strip-metric">Deterministic routing checks passed</div>
     </div>
     <div class="proof-strip-card">
-      <div class="proof-strip-num">100%</div>
-      <div class="proof-strip-metric">structured compliance</div>
-      <div class="proof-strip-detail">Validated against a versioned, machine-enforced contract</div>
+      <div class="proof-strip-num">5 Governed Routes</div>
+      <div class="proof-strip-metric">Emergency, urgent, routine, needs-more-info, conflict/defer</div>
+    </div>
+    <div class="proof-strip-card">
+      <div class="proof-strip-num">Persistent Audit Workflow</div>
+      <div class="proof-strip-metric">Cases, reports, reviewer feedback, and session summaries</div>
     </div>
   </div>
   <div class="proof-strip-row">
-    <a href="#cardio-demo" class="proof-strip-bridge">View the clinical workflow →</a>
-    <div class="proof-strip-footer">Safety-first by design</div>
+    <a href="#cardio-pilot" class="proof-strip-bridge">View the Cardio Pilot →</a>
+    <div class="proof-strip-footer">Deterministic. Governed. Audit-ready.</div>
   </div>
 </div>
+
+<!-- CARDIO PILOT -->
+<section id="cardio-pilot" class="cardio-pilot">
+
+  <div class="cardio-content-row">
+    <div class="cardio-left">
+      <div class="section-label">Live Pilot</div>
+      <h2 class="cardio-headline serif">AI signal extraction with governed clinical routing</h2>
+      <p class="cardio-body">Cardio Pilot shows Soficca's decision infrastructure inside a cardiovascular workflow. AI extracts structured clinical signals from free-text narratives, humans confirm the signal, and Soficca applies deterministic safety routing to produce an audit-ready report for clinical review.</p>
+      <p class="cardio-body">The pilot does not diagnose, prescribe, or replace clinicians. It demonstrates bounded AI, governed routing, safety overrides, missing-data handling, and persistent review records using simulated or anonymized cases.</p>
+      <a href="https://cardio.pilot.soficca.com/" class="cardio-cta" target="_blank" rel="noopener noreferrer">View Cardio Pilot →</a>
+    </div>
+
+    <div class="cardio-right">
+      <div class="cardio-features">
+        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">AI signal layer</div><div class="cardio-feature-desc">Free-text narratives become structured clinical fields.</div></div></div>
+        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Governance layer</div><div class="cardio-feature-desc">Versioned deterministic rules govern the route.</div></div></div>
+        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Safety layer</div><div class="cardio-feature-desc">Red flags can override preliminary routing.</div></div></div>
+        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Review layer</div><div class="cardio-feature-desc">Output is built for human clinical review.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cardio-artifact-row">
+    <div class="cardio-stage">
+      <span class="stage-eyebrow">Live output — Decision report</span>
+      <div class="cardio-stage-img">
+        <a href="https://cardio.pilot.soficca.com/" target="_blank" rel="noopener noreferrer" style="display:block;">
+          <img src="cardio-pilot.png" alt="Cardio Pilot decision report — Soficca clinical decision infrastructure">
+        </a>
+      </div>
+      <div class="process-rail">
+        <span>+ AI Signal</span>
+        <span>+ Deterministic Route</span>
+        <span>+ Safety Override</span>
+        <span>+ Audit Trace</span>
+        <span>+ Human Review</span>
+      </div>
+    </div>
+  </div>
+
+</section>
 
 <!-- DIVIDER -->
 <div class="rule-section">
@@ -1552,35 +1605,35 @@
 <section class="roadmap" id="roadmap">
   <div class="roadmap-header fade-in">
     <h2 class="roadmap-title serif">Our Roadmap</h2>
-    <div class="roadmap-note">Workflow → continuity → infrastructure</div>
+    <div class="roadmap-note">Current → Next → Later</div>
   </div>
 
   <div class="phases">
     <div class="phase phase-active fade-in">
-      <div class="phase-num">Phase 1.0</div>
+      <div class="phase-num">Current</div>
       <div class="phase-badge">Live Now</div>
-      <h3 class="phase-title serif">Pen: First Decision Workflow</h3>
+      <h3 class="phase-title serif">Live Pilot Infrastructure</h3>
       <p class="phase-body">
-        The first governed workflow validating structured intake, routing, and follow-up in real product use.
+        Cardio Pilot is deployed with AI signal extraction, deterministic routing, audit-ready reports, case persistence, and reviewer feedback. Pen is the first commercial workflow.
       </p>
-      <a href="https://pen.soficca.com/" class="phase-link">View Pen →</a>
+      <a href="https://cardio.pilot.soficca.com" class="phase-link">View Cardio Pilot →</a>
     </div>
 
     <div class="phase fade-in">
-      <div class="phase-num">Phase 2.0</div>
+      <div class="phase-num">Next</div>
       <div class="phase-badge">Building</div>
-      <h3 class="phase-title serif">Longitudinal Patient Context</h3>
+      <h3 class="phase-title serif">Controlled Physician Review</h3>
       <p class="phase-body">
-        As care continues over time, follow-up data becomes part of the next decision, making continuity a system requirement.
+        Run 20–50 simulated or anonymized cardiovascular cases with reviewers, capture agreement and usefulness signals, and prepare a validation package.
       </p>
     </div>
 
     <div class="phase fade-in">
-      <div class="phase-num">Phase 3.0</div>
-      <div class="phase-badge">Infrastructure</div>
-      <h3 class="phase-title serif">Clinical Decision Infrastructure</h3>
+      <div class="phase-num">Later</div>
+      <div class="phase-badge">Expansion</div>
+      <h3 class="phase-title serif">Workflow Expansion</h3>
       <p class="phase-body">
-        When the same decision logic repeats across workflows, the reusable layer becomes the larger opportunity.
+        Add organization workspaces, access control, QA persistence, and specialty-specific workflows for clinics, pharmacies, and telemedicine partners.
       </p>
     </div>
   </div>
@@ -1589,31 +1642,24 @@
 <!-- EARLY PROOF -->
 <section class="early-proof">
   <div class="proof-header fade-in">
-    <div class="section-label">Early Proof</div>
+    <div class="section-label">Execution</div>
     <h2 class="proof-headline serif">Built beyond concept</h2>
-    <p class="proof-body">Soficca is not being defined only in theory. It is already taking shape through a real workflow, governed outputs, and the product discipline required to carry decisions forward over time.</p>
-    <p class="proof-body">Pen is the first workflow where that layer is being built, tested, and made operational.</p>
-  </div>
-
-  <div class="proof-grid">
-    <div class="proof-card">
-      <div><div class="proof-card-title">Real workflow surface</div><div class="proof-card-body">Pen provides the first live product environment where the layer is being shaped in practice.</div></div>
-    </div>
-    <div class="proof-card">
-      <div><div class="proof-card-title">Governed outputs</div><div class="proof-card-body">The system is being built around structured next-step decisions, not just stored data or static recommendations.</div></div>
-    </div>
-    <div class="proof-card">
-      <div><div class="proof-card-title">Operational continuity</div><div class="proof-card-body">Follow-up, review timing, and next-step logic are being carried forward as part of the workflow.</div></div>
-    </div>
-    <div class="proof-card">
-      <div><div class="proof-card-title">Reusable layer discipline</div><div class="proof-card-body">What begins in one workflow is being structured to support repeatable decision logic underneath.</div></div>
-    </div>
+    <p class="proof-body">Soficca is not a slide deck. The infrastructure is deployed, the pilot is running, and the decision layer is being validated through real controlled workflows.</p>
   </div>
 
   <div class="advisor-card">
     <div class="advisor-name">Carlos Pérez</div>
     <div class="advisor-role">Clinical Audit &amp; Regulatory Advisor</div>
     <div class="advisor-body">Clinical audit specialist with 10+ years of experience in healthcare operations and regulatory processes in Colombia. Currently works at Nueva EPS and advises Soficca on documentation discipline, audit-readiness, and regulatory alignment.</div>
+  </div>
+
+  <div class="proof-grid">
+    <div class="proof-card">
+      <div><div class="proof-card-title">Soficca Core Engine</div><div class="proof-card-body">Versioned decision logic, safety policy enforcement, deterministic outputs, and reproducible traces.</div></div>
+    </div>
+    <div class="proof-card">
+      <div><div class="proof-card-title">Reviewer layer</div><div class="proof-card-body">Structured case review, reviewer feedback, and session summaries for controlled pilot validation.</div></div>
+    </div>
   </div>
 </section>
 
@@ -1646,49 +1692,6 @@
       <div class="evidence-panel-source">Source: OECD PaRIS</div>
     </div>
   </div>
-</section>
-
-<!-- BRIDGE -->
-<div class="section-bridge">
-  <div class="bridge-line"></div>
-  <span class="bridge-text">Beyond the first workflow</span>
-  <div class="bridge-line"></div>
-</div>
-
-<!-- CARDIO DEMO -->
-<section id="cardio-demo" class="cardio-demo">
-
-  <div class="cardio-content-row fade-in">
-    <div class="cardio-left">
-      <div class="section-label">Adaptability</div>
-      <h2 class="cardio-headline serif">One decision layer, multiple clinical workflows</h2>
-      <p class="cardio-body">The opportunity is not one product or one specialty. It is the repeated need for governed next-step decisions across healthcare workflows. Routing, medication logic, follow-up, and continuity do not break in only one setting — they repeat across care environments.</p>
-      <p class="cardio-body">That is why Soficca can extend beyond Pen: the same decision layer can support multiple clinical and operational workflows underneath.</p>
-    </div>
-
-    <div class="cardio-right">
-      <div class="cardio-features">
-        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Hospitals</div><div class="cardio-feature-desc">Structured routing, escalation, and follow-up logic can govern what should happen next across clinical pathways.</div></div></div>
-        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Pharmacies</div><div class="cardio-feature-desc">Medication eligibility, safety checks, and continuity can be structured into repeatable workflow decisions.</div></div></div>
-        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Telehealth</div><div class="cardio-feature-desc">Intake, next-step recommendations, escalation, and review timing can move beyond one-time interactions.</div></div></div>
-        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Longitudinal care</div><div class="cardio-feature-desc">As follow-up accumulates over time, the same layer can carry context into future actions and reviews.</div></div></div>
-      </div>
-      <a href="https://cardio.soficca.com/" class="cardio-cta" target="_blank" rel="noopener noreferrer">View cardio demo →</a>
-    </div>
-  </div>
-
-  <div class="cardio-artifact-row fade-in">
-    <div class="cardio-preview">
-      <div class="cardio-preview-frame">
-        <a href="https://cardio.soficca.com/" target="_blank" rel="noopener noreferrer" style="display:block;"><img src="cardio-demo.png?v=2" alt="Cardio workflow demo — Soficca infrastructure" class="cardio-preview-img"></a>
-      </div>
-      <div class="cardio-preview-footer">
-        <span>Cardio workflow</span>
-        <span>Infrastructure demo</span>
-      </div>
-    </div>
-  </div>
-
 </section>
 
 <!-- COMPOUNDING -->
@@ -1748,7 +1751,7 @@
 <footer>
   <div class="footer-logo serif">Soficca</div>
   <div class="footer-copy">© 2026 Soficca</div>
-  <a href="https://pen.soficca.com/" class="footer-back">Back to Pen →</a>
+  <a href="https://pen.soficca.com/" class="footer-back">Explore Pen →</a>
 </footer>
 
 <script>
@@ -1761,7 +1764,7 @@
     });
   }, { threshold: 0.12 });
 
-  document.querySelectorAll('.fade-in, .pillar, .compound-row, .step, .proof-card, .advisor-card, .cardio-feature').forEach(el => {
+  document.querySelectorAll('.fade-in, .pillar, .compound-row, .step, .proof-card, .advisor-card').forEach(el => {
     observer.observe(el);
   });
 
