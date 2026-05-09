@@ -1110,17 +1110,23 @@
 
   /* ── CARDIO PILOT ── */
   .cardio-pilot {
-    padding: 160px 72px 172px;
-    background: #0d0f0e;
-    color: var(--paper);
+    padding: 120px 72px 128px;
+    background: var(--paper);
+    color: var(--ink);
     position: relative;
+  }
+
+  .cardio-pilot-shell {
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .cardio-content-row {
     display: grid;
     grid-template-columns: 7fr 5fr;
-    gap: 80px;
+    gap: 72px;
     align-items: start;
+    margin-bottom: 12px;
   }
 
   .cardio-right {
@@ -1129,8 +1135,8 @@
 
   .cardio-pilot .section-label {
     font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.2em;
+    color: var(--accent);
     margin-bottom: 1.5rem;
   }
 
@@ -1141,14 +1147,14 @@
     line-height: 1.08;
     letter-spacing: -0.035em;
     margin-bottom: 1.5rem;
-    color: #fff;
+    color: var(--ink);
     max-width: 560px;
   }
 
   .cardio-body {
     font-size: 1rem;
     line-height: 1.75;
-    color: rgba(255,255,255,0.65);
+    color: var(--ink-secondary);
     max-width: 580px;
     margin-bottom: 1.5rem;
   }
@@ -1170,61 +1176,66 @@
     text-decoration: none;
     border: 1px solid var(--accent-hover);
     border-radius: 6px;
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.12);
+    transition: background 0.15s ease;
   }
   .cardio-cta:hover { background: var(--accent-hover); }
 
   .cardio-features {
-    display: flex;
-    flex-direction: column;
-    background: rgba(255,255,255,0.035);
-    border: 1px solid rgba(255,255,255,0.09);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule-light);
+    border: 1px solid var(--rule-light);
     border-radius: 10px;
-    padding: 2rem;
+    overflow: hidden;
   }
 
   .cardio-feature {
     display: flex;
     align-items: flex-start;
-    gap: 14px;
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    gap: 12px;
+    padding: 1.5rem 1.4rem;
+    background: var(--warm-white);
+    min-height: 108px;
   }
-  .cardio-feature:last-child { border-bottom: none; }
 
   .cardio-feature-dot {
     width: 5px;
     height: 5px;
-    background: rgba(45, 106, 79, 0.85);
+    background: var(--accent);
     border-radius: 50%;
     flex-shrink: 0;
-    margin-top: 7px;
+    margin-top: 4px;
   }
 
   .cardio-feature-title {
-    font-size: 0.82rem;
-    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
     letter-spacing: 0.06em;
-    color: rgba(255,255,255,0.92);
-    margin-bottom: 4px;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 6px;
   }
 
   .cardio-feature-desc {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 400;
     line-height: 1.55;
-    color: rgba(255,255,255,0.50);
+    color: var(--muted);
   }
 
   .cardio-artifact-row {
-    margin-top: 96px;
+    margin-top: 0;
+    margin-left: -60px;
+    margin-right: -60px;
   }
 
   .cardio-stage {
-    background: #141718;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 14px;
-    padding: 2.75rem 2.25rem 2rem;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
     position: relative;
   }
 
@@ -1232,24 +1243,22 @@
     display: block;
     font-size: 0.6rem;
     letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.35);
+    color: var(--muted);
     font-family: 'JetBrains Mono', monospace;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.6rem;
     text-transform: uppercase;
-    text-align: center;
   }
 
   .cardio-stage-img {
     display: block;
-    max-width: 90%;
+    max-width: 100%;
     margin: 0 auto;
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 12px;
+    border: 1px solid var(--rule-light);
     box-shadow:
-      0 0 0 1px rgba(0,0,0,0.3),
-      0 10px 48px rgba(0,0,0,0.55),
-      0 2px 8px rgba(0,0,0,0.4),
-      0 0 100px rgba(255,255,255,0.035);
+      0 12px 48px rgba(0,0,0,0.08),
+      0 4px 12px rgba(0,0,0,0.04),
+      0 1px 3px rgba(0,0,0,0.03);
     overflow: hidden;
   }
 
@@ -1261,18 +1270,18 @@
 
   .process-rail {
     display: flex;
-    justify-content: space-between;
-    max-width: 90%;
-    margin: 1.5rem auto 0;
-    padding-top: 1.25rem;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 0.5rem auto 0;
+    padding-top: 0.4rem;
   }
 
   .process-rail span {
-    font-size: 0.68rem;
+    font-size: 0.6rem;
     letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.42);
+    color: var(--muted);
     font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
   }
 
   /* ── STRATEGIC CLARIFICATION ── */
@@ -1399,13 +1408,14 @@
     .evidence-grid { grid-template-columns: 1fr; }
     .evidence-header { flex-direction: column; align-items: flex-start; gap: 16px; }
     .cardio-pilot { padding: 80px 24px 96px; }
-    .cardio-content-row { grid-template-columns: 1fr; gap: 48px; }
+    .cardio-content-row { grid-template-columns: 1fr; gap: 40px; margin-bottom: 20px; }
     .cardio-headline { font-size: clamp(1.6rem, 7vw, 2.4rem); max-width: none; }
     .cardio-body { font-size: 0.95rem; max-width: none; }
-    .cardio-stage { padding: 1.5rem; border-radius: 10px; }
-    .cardio-stage-img { max-width: 100%; border-radius: 6px; }
-    .process-rail { max-width: 100%; flex-wrap: wrap; gap: 0.5rem 1rem; }
-    .cardio-artifact-row { margin-top: 56px; }
+    .cardio-features { grid-template-columns: 1fr; }
+    .cardio-feature { min-height: auto; }
+    .cardio-artifact-row { margin-left: 0; margin-right: 0; }
+    .cardio-stage-img { border-radius: 10px; }
+    .process-rail { flex-wrap: wrap; gap: 0.5rem 1.25rem; }
     .section-bridge { padding: 0 24px; }
   }
 </style>
@@ -1415,7 +1425,7 @@
 <!-- HEADER -->
 <header>
   <a href="#" class="logo">Soficca</a>
-  <a href="https://cardio.pilot.soficca.com" class="header-link" target="_blank" rel="noopener noreferrer">View Cardio Pilot</a>
+  <a href="https://cardio.pilot.soficca.com/" class="header-link" target="_blank" rel="noopener noreferrer">View Cardio Pilot</a>
 </header>
 
 <!-- HERO -->
@@ -1434,7 +1444,7 @@
       The Cardio Pilot is live. The infrastructure is real.
     </p>
     <div class="hero-cta-group">
-      <a href="https://cardio.pilot.soficca.com" class="hero-cta">View Cardio Pilot →</a>
+      <a href="https://cardio.pilot.soficca.com/" class="hero-cta">View Cardio Pilot →</a>
       <a href="https://pen.soficca.com/" class="hero-secondary">Explore Pen</a>
     </div>
   </div>
@@ -1480,44 +1490,46 @@
 
 <!-- CARDIO PILOT -->
 <section id="cardio-pilot" class="cardio-pilot">
+  <div class="cardio-pilot-shell">
 
-  <div class="cardio-content-row">
-    <div class="cardio-left">
-      <div class="section-label">Live Pilot</div>
-      <h2 class="cardio-headline serif">AI signal extraction with governed clinical routing</h2>
-      <p class="cardio-body">Cardio Pilot shows Soficca's decision infrastructure inside a cardiovascular workflow. AI extracts structured clinical signals from free-text narratives, humans confirm the signal, and Soficca applies deterministic safety routing to produce an audit-ready report for clinical review.</p>
-      <p class="cardio-body">The pilot does not diagnose, prescribe, or replace clinicians. It demonstrates bounded AI, governed routing, safety overrides, missing-data handling, and persistent review records using simulated or anonymized cases.</p>
-      <a href="https://cardio.pilot.soficca.com/" class="cardio-cta" target="_blank" rel="noopener noreferrer">View Cardio Pilot →</a>
-    </div>
+    <div class="cardio-content-row">
+      <div class="cardio-left">
+        <div class="section-label">Live Pilot</div>
+        <h2 class="cardio-headline serif">AI signal extraction with governed clinical routing</h2>
+        <p class="cardio-body">Cardio Pilot shows Soficca's decision infrastructure inside a cardiovascular workflow. AI extracts structured clinical signals from free-text narratives, humans confirm the signal, and Soficca applies deterministic safety routing to produce an audit-ready report for clinical review.</p>
+        <p class="cardio-body">The pilot does not diagnose, prescribe, or replace clinicians. It demonstrates bounded AI, governed routing, safety overrides, missing-data handling, and persistent review records using simulated or anonymized cases.</p>
+        <a href="https://cardio.pilot.soficca.com/" class="cardio-cta" target="_blank" rel="noopener noreferrer">View Cardio Pilot →</a>
+      </div>
 
-    <div class="cardio-right">
-      <div class="cardio-features">
-        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">AI signal layer</div><div class="cardio-feature-desc">Free-text narratives become structured clinical fields.</div></div></div>
-        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Governance layer</div><div class="cardio-feature-desc">Versioned deterministic rules govern the route.</div></div></div>
-        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Safety layer</div><div class="cardio-feature-desc">Red flags can override preliminary routing.</div></div></div>
-        <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Review layer</div><div class="cardio-feature-desc">Output is built for human clinical review.</div></div></div>
+      <div class="cardio-right">
+        <div class="cardio-features">
+          <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">AI signal layer</div><div class="cardio-feature-desc">Free-text narratives become structured clinical fields.</div></div></div>
+          <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Governance layer</div><div class="cardio-feature-desc">Versioned deterministic rules govern the route.</div></div></div>
+          <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Safety layer</div><div class="cardio-feature-desc">Red flags can override preliminary routing.</div></div></div>
+          <div class="cardio-feature"><div class="cardio-feature-dot"></div><div><div class="cardio-feature-title">Review layer</div><div class="cardio-feature-desc">Output is built for human clinical review.</div></div></div>
+        </div>
       </div>
     </div>
+
+    <div class="cardio-artifact-row">
+      <div class="cardio-stage">
+        <span class="stage-eyebrow">Live output — Decision report</span>
+        <div class="cardio-stage-img">
+          <a href="https://cardio.pilot.soficca.com/" target="_blank" rel="noopener noreferrer" style="display:block;">
+            <img src="cardio-pilot.png" alt="Cardio Pilot decision report — Soficca clinical decision infrastructure">
+          </a>
+        </div>
+        <div class="process-rail">
+          <span>AI Signal</span>
+          <span>Deterministic Route</span>
+          <span>Safety Override</span>
+          <span>Audit Trace</span>
+          <span>Human Review</span>
+        </div>
+      </div>
+    </div>
+
   </div>
-
-  <div class="cardio-artifact-row">
-    <div class="cardio-stage">
-      <span class="stage-eyebrow">Live output — Decision report</span>
-      <div class="cardio-stage-img">
-        <a href="https://cardio.pilot.soficca.com/" target="_blank" rel="noopener noreferrer" style="display:block;">
-          <img src="cardio-pilot.png" alt="Cardio Pilot decision report — Soficca clinical decision infrastructure">
-        </a>
-      </div>
-      <div class="process-rail">
-        <span>+ AI Signal</span>
-        <span>+ Deterministic Route</span>
-        <span>+ Safety Override</span>
-        <span>+ Audit Trace</span>
-        <span>+ Human Review</span>
-      </div>
-    </div>
-  </div>
-
 </section>
 
 <!-- DIVIDER -->
@@ -1616,7 +1628,7 @@
       <p class="phase-body">
         Cardio Pilot is deployed with AI signal extraction, deterministic routing, audit-ready reports, case persistence, and reviewer feedback. Pen is the first commercial workflow.
       </p>
-      <a href="https://cardio.pilot.soficca.com" class="phase-link">View Cardio Pilot →</a>
+      <a href="https://cardio.pilot.soficca.com/" class="phase-link">View Cardio Pilot →</a>
     </div>
 
     <div class="phase fade-in">
