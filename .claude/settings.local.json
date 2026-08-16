@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp *)",
+      "Bash(npx kill-port)",
+      "Bash(wmic process *)",
+      "Bash(powershell -Command \"Get-Process | Where-Object { \\\\$_.Path -like '*OneDrive*' } | Select-Object Id, ProcessName, Path\" 2>&1)",
+      "Bash(powershell -Command 'Get-Process | Where-Object { $_.Modules.FileName -like '\\\\''*EntropyToCertaintyGraph*'\\\\'' } | Select-Object Id, ProcessName')",
+      "Bash(netstat -ano)",
+      "Bash(npm run *)",
+      "Bash(npx @playwright/mcp@latest --version)",
+      "Bash(npx playwright *)",
+      "Bash(node *)",
+      "Bash(npm install *)",
+      "Bash(git init *)",
+      "Bash(git add *)"
+    ]
+  }
+}
