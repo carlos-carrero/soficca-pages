@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f8f6f1;
+  --warm-white: #fdfcf9;
+  --ink: #1a1917;
+  --ink-secondary: #3d3a36;
+  --accent: #2d6a4f;
+  --accent-hover: #245840;
+  --muted: #706c67;
+  --rule: #ddd8d0;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-warm-white: var(--warm-white);
+  --color-ink: var(--ink);
+  --color-ink-secondary: var(--ink-secondary);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --font-sans: var(--font-space-grotesk);
+  --font-body: var(--font-plus-jakarta-sans);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.heartbeat-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.heartbeat-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2d6a4f;
+  animation: beat 2s infinite cubic-bezier(.3, 0, .2, 1);
+  z-index: 1;
+}
+
+.heartbeat-ring {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #2d6a4f;
+  animation: ring 2s infinite cubic-bezier(.2, .7, .3, 1);
+}
+
+@keyframes beat {
+  0% { transform: scale(1); }
+  8% { transform: scale(1.45); }
+  16% { transform: scale(1); }
+  24% { transform: scale(1.22); }
+  34% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes ring {
+  0% { transform: scale(1); opacity: .55; }
+  8% { transform: scale(1); opacity: .5; }
+  45% { transform: scale(3.4); opacity: 0; }
+  100% { transform: scale(3.4); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heartbeat-dot {
+    animation: none;
+  }
+  .heartbeat-ring {
+    display: none;
+  }
+}
