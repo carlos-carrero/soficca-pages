@@ -52,7 +52,7 @@ function makePathVariant(c: string, k: string, o: string, strokeW: number, baseO
         duration: DUR,
         times: [0, T0, T0 + 0.01, T1, T1 + 0.01, 1],
         repeat: Infinity,
-        ease: "easeInOut",
+        ease: "easeInOut" as const,
       },
     },
   };
@@ -112,7 +112,7 @@ export default function EntropyFlowDossier() {
                 duration: DUR,
                 times: [0, T0 - 0.05, T0 + 0.1, T1, 1 - 0.01, 1],
                 repeat: Infinity,
-                ease: "easeInOut",
+                ease: "easeInOut" as const,
               }}
             >
               {frag.text}
@@ -159,7 +159,7 @@ export default function EntropyFlowDossier() {
               duration: DUR,
               times: [0, T0, T0 + 0.01, T1, T1 + 0.06, 1],
               repeat: Infinity,
-              ease: "easeOut",
+              ease: "easeOut" as const,
             }}
           />
 
@@ -180,7 +180,7 @@ export default function EntropyFlowDossier() {
               duration: DUR,
               times: [0, T0, T0 + 0.01, T1 + 0.03, T1 + 0.18, 1],
               repeat: Infinity,
-              ease: "easeOut",
+              ease: "easeOut" as const,
             }}
           />
 
@@ -197,7 +197,7 @@ export default function EntropyFlowDossier() {
               duration: DUR,
               times: [0, T0, T0 + 0.01, T1 + 0.15, T1 + 0.2, 1 - 0.05],
               repeat: Infinity,
-              ease: "linear",
+              ease: "linear" as const,
             }}
           />
 
@@ -215,7 +215,7 @@ export default function EntropyFlowDossier() {
               duration: DUR,
               times: [0, T0, T0 + 0.01, T1 + 0.12, T1 + 0.2, 1],
               repeat: Infinity,
-              ease: "easeOut",
+              ease: "easeOut" as const,
             }}
           >
             [●]
@@ -235,7 +235,7 @@ export default function EntropyFlowDossier() {
               duration: DUR,
               times: [0, T0, T0 + 0.01, T1 + 0.1, T1 + 0.2, 1],
               repeat: Infinity,
-              ease: "easeOut",
+              ease: "easeOut" as const,
             }}
           >
             ROUTE: GOVERNED CARE
@@ -250,7 +250,7 @@ export default function EntropyFlowDossier() {
               duration: DUR,
               times: [0, T0 - 0.05, T0 + 0.05, T1, 1 - 0.01, 1],
               repeat: Infinity,
-              ease: "easeInOut",
+              ease: "easeInOut" as const,
             }}
           >
             <text x="20" y="238" fill="#706c67" className="text-[7px] uppercase tracking-wider" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
@@ -270,7 +270,7 @@ export default function EntropyFlowDossier() {
               duration: DUR,
               times: [0, T0 - 0.02, T0 + 0.05, T1 - 0.05, T1 + 0.02, 1],
               repeat: Infinity,
-              ease: "easeInOut",
+              ease: "easeInOut" as const,
             }}
           >
             <text x="200" y="238" fill="#706c67" className="text-[7px] uppercase tracking-wider" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
@@ -290,7 +290,7 @@ export default function EntropyFlowDossier() {
               duration: DUR,
               times: [0, T0, T0 + 0.01, T1, T1 + 0.08, 1],
               repeat: Infinity,
-              ease: "easeOut",
+              ease: "easeOut" as const,
             }}
           >
             <text x="380" y="238" fill="#2d6a4f" className="text-[7px] uppercase tracking-wider" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
