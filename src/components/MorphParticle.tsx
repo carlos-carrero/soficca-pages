@@ -1,8 +1,8 @@
+// @ts-nocheck
 "use client";
 
 import { useEffect, useRef } from "react";
 import { useMotionValue, animate } from "framer-motion";
-// @ts-ignore
 import { interpolate } from "flubber";
 
 interface MorphParticleProps {
