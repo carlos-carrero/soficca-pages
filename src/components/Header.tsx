@@ -50,15 +50,6 @@ export default function Header() {
             <span className="hidden md:inline">View Cardio Pilot</span>
             <span className="md:hidden">Pilot</span>
           </a>
-
-          {/* Contact */}
-          <a
-            href="mailto:hello@soficca.com?subject=Inquiry%20%E2%80%94%20Soficca"
-            className="text-[10px] md:text-[11px] uppercase tracking-[0.1em] text-[var(--ink)] hover:text-[var(--accent)] transition-colors"
-            style={{ fontFamily: MONO }}
-          >
-            Contact
-          </a>
         </nav>
       </div>
     </header>
