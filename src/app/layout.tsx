@@ -10,10 +10,21 @@ import "@fontsource/plus-jakarta-sans/700.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 import "./globals.css";
+import { LenisProvider } from "@/lib/LenisContext";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.soficca.com'),
   title: "Soficca — Clinical Decision Infrastructure",
-  description: "Evidence-based clinical decision support tools for healthcare professionals",
+  description: "Soficca is clinical decision infrastructure. Cardio Pilot is the live proof — AI signal extraction with governed routing, safety overrides, and audit-ready output.",
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: "Soficca — Clinical Decision Infrastructure",
+    description: "Soficca is clinical decision infrastructure. Cardio Pilot is the live proof — AI signal extraction with governed routing, safety overrides, and audit-ready output.",
+    url: 'https://www.soficca.com',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -27,7 +38,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       } as React.CSSProperties}
       className="h-full antialiased"
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <LenisProvider>{children}</LenisProvider>
+      </body>
     </html>
   );
 }

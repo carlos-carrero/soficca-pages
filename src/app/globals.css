@@ -29,3 +29,61 @@ body {
   background: var(--paper);
   color: var(--ink);
 }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.heartbeat-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.heartbeat-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2d6a4f;
+  animation: beat 2s infinite cubic-bezier(.3, 0, .2, 1);
+  z-index: 1;
+}
+
+.heartbeat-ring {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #2d6a4f;
+  animation: ring 2s infinite cubic-bezier(.2, .7, .3, 1);
+}
+
+@keyframes beat {
+  0% { transform: scale(1); }
+  8% { transform: scale(1.45); }
+  16% { transform: scale(1); }
+  24% { transform: scale(1.22); }
+  34% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes ring {
+  0% { transform: scale(1); opacity: .55; }
+  8% { transform: scale(1); opacity: .5; }
+  45% { transform: scale(3.4); opacity: 0; }
+  100% { transform: scale(3.4); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heartbeat-dot {
+    animation: none;
+  }
+  .heartbeat-ring {
+    display: none;
+  }
+}
