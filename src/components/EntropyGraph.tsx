@@ -27,7 +27,7 @@ export default function EntropyGraph() {
         times: [0, 0.28, 0.29, 0.57, 0.58],
         repeat: Infinity,
         ease: "easeInOut",
-      },
+      } as any,
     },
   };
 
@@ -54,7 +54,7 @@ export default function EntropyGraph() {
         times: [0, 0.28, 0.29, 0.57, 0.58],
         repeat: Infinity,
         ease: "easeInOut",
-      },
+      } as any,
     },
   };
 
@@ -68,7 +68,7 @@ export default function EntropyGraph() {
         times: [0, 0.28, 0.29, 0.57, 0.58],
         repeat: Infinity,
         ease: "easeOut",
-      },
+      } as any,
     },
   };
 
@@ -82,7 +82,7 @@ export default function EntropyGraph() {
         times: [0, 0.28, 0.29, 0.57, 0.58],
         repeat: Infinity,
         ease: "easeOut",
-      },
+      } as any,
     },
   };
 
@@ -96,7 +96,7 @@ export default function EntropyGraph() {
         times: [0, 0.28, 0.29, 0.57, 0.58],
         repeat: Infinity,
         ease: "easeOut",
-      },
+      } as any,
     },
   };
 

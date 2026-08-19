@@ -53,7 +53,7 @@ function makePathVariant(c: string, k: string, o: string, strokeW: number, baseO
         times: [0, T0, T0 + 0.01, T1, T1 + 0.01, 1],
         repeat: Infinity,
         ease: "easeInOut",
-      },
+      } as any,
     },
   };
 }
@@ -113,7 +113,7 @@ export default function EntropyFlowDossier() {
                 times: [0, T0 - 0.05, T0 + 0.1, T1, 1 - 0.01, 1],
                 repeat: Infinity,
                 ease: "easeInOut",
-              }}
+              } as any}
             >
               {frag.text}
             </motion.text>
@@ -160,7 +160,7 @@ export default function EntropyFlowDossier() {
               times: [0, T0, T0 + 0.01, T1, T1 + 0.06, 1],
               repeat: Infinity,
               ease: "easeOut",
-            }}
+            } as any}
           />
 
           {/* Output horizontal line — state 2 */}
@@ -181,7 +181,7 @@ export default function EntropyFlowDossier() {
               times: [0, T0, T0 + 0.01, T1 + 0.03, T1 + 0.18, 1],
               repeat: Infinity,
               ease: "easeOut",
-            }}
+            } as any}
           />
 
           {/* Governed pulse dot */}
@@ -198,7 +198,7 @@ export default function EntropyFlowDossier() {
               times: [0, T0, T0 + 0.01, T1 + 0.15, T1 + 0.2, 1 - 0.05],
               repeat: Infinity,
               ease: "linear",
-            }}
+            } as any}
           />
 
           {/* End indicator [●] */}
@@ -216,7 +216,7 @@ export default function EntropyFlowDossier() {
               times: [0, T0, T0 + 0.01, T1 + 0.12, T1 + 0.2, 1],
               repeat: Infinity,
               ease: "easeOut",
-            }}
+            } as any}
           >
             [●]
           </motion.text>
@@ -236,7 +236,7 @@ export default function EntropyFlowDossier() {
               times: [0, T0, T0 + 0.01, T1 + 0.1, T1 + 0.2, 1],
               repeat: Infinity,
               ease: "easeOut",
-            }}
+            } as any}
           >
             ROUTE: GOVERNED CARE
           </motion.text>
@@ -251,7 +251,7 @@ export default function EntropyFlowDossier() {
               times: [0, T0 - 0.05, T0 + 0.05, T1, 1 - 0.01, 1],
               repeat: Infinity,
               ease: "easeInOut",
-            }}
+            } as any}
           >
             <text x="20" y="238" fill="#706c67" className="text-[7px] uppercase tracking-wider" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
               S0: CAOS CLÍNICO
@@ -271,7 +271,7 @@ export default function EntropyFlowDossier() {
               times: [0, T0 - 0.02, T0 + 0.05, T1 - 0.05, T1 + 0.02, 1],
               repeat: Infinity,
               ease: "easeInOut",
-            }}
+            } as any}
           >
             <text x="200" y="238" fill="#706c67" className="text-[7px] uppercase tracking-wider" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
               S1: SINCRONIZACIÓN
@@ -291,7 +291,7 @@ export default function EntropyFlowDossier() {
               times: [0, T0, T0 + 0.01, T1, T1 + 0.08, 1],
               repeat: Infinity,
               ease: "easeOut",
-            }}
+            } as any}
           >
             <text x="380" y="238" fill="#2d6a4f" className="text-[7px] uppercase tracking-wider" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
               S2: CERTEZA TÁCTICA
