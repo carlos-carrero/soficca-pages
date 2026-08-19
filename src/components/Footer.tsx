@@ -2,7 +2,7 @@
 
 const MONO = "var(--font-jetbrains-mono)";
 const SANS = "var(--font-plus-jakarta-sans)";
-const DISPLAY = "var(--font-space-grotesk)";
+const DISPLAY = "var(--font-plus-jakarta-sans)";
 
 export default function Footer() {
   return (
@@ -13,7 +13,7 @@ export default function Footer() {
           {/* BRAND COLUMN */}
           <div className="flex flex-col space-y-4">
             <h2
-              className="text-2xl font-bold text-[var(--ink)]"
+              className="text-xl md:text-2xl font-extrabold text-[var(--ink)]"
               style={{ fontFamily: DISPLAY }}
             >
               Soficca
