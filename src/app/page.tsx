@@ -241,9 +241,9 @@ export default function Home() {
 
                   {/* Hub node: Live Cardio Pilot — heartbeat */}
                   <foreignObject x={hub.cx - 25} y={hub.cy - 25} width="50" height="50" style={{ overflow: "visible" }}>
-                    <div className="heartbeat-container">
-                      <span className="heartbeat-ring" />
-                      <span className="heartbeat-dot" />
+                    <div className="heartbeat-container w-full h-full">
+                      <span className="heartbeat-ring absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                      <span className="heartbeat-dot absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                     </div>
                   </foreignObject>
 
