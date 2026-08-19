@@ -115,6 +115,7 @@ export default function Home() {
           </div>
 
           <div className="relative">
+            {/* DESKTOP DIAGRAM — unchanged */}
             {(() => {
               const NODE_GAP = 16;
 
@@ -153,7 +154,7 @@ export default function Home() {
               const connectorLabel = { x: 100 + NODE_GAP, y: (l3start.y + l3end.y) / 2 };
 
               return (
-                <svg viewBox="0 0 420 200" className="w-full h-auto" aria-hidden="true">
+                <svg viewBox="0 0 420 200" className="hidden lg:block w-full h-auto" aria-hidden="true">
                   {/* Lines — NODE_GAP clearance from both node edges */}
                   <line x1={l1start.x.toFixed(1)} y1={l1start.y.toFixed(1)} x2={l1end.x.toFixed(1)} y2={l1end.y.toFixed(1)} stroke="#1a1917" strokeWidth="1" />
                   <line x1={l2start.x.toFixed(1)} y1={l2start.y.toFixed(1)} x2={l2end.x.toFixed(1)} y2={l2end.y.toFixed(1)} stroke="#1a1917" strokeWidth="1" />
@@ -199,6 +200,79 @@ export default function Home() {
                   </text>
 
                   {/* Connector label — NODE_GAP clearance from vertical line */}
+                  <text x={connectorLabel.x} y={connectorLabel.y.toFixed(1)} fill="#706c67" fontSize="7.5" fontFamily="'JetBrains Mono', monospace">
+                    built on top of
+                  </text>
+                </svg>
+              );
+            })()}
+
+            {/* MOBILE DIAGRAM — vertical column layout */}
+            {(() => {
+              const NODE_GAP = 16;
+
+              const hub = { cx: 100, cy: 50, r: 5 };
+              const golden = { cx: 100, cy: 100, r: 3.5 };
+              const governed = { cx: 100, cy: 150, r: 3.5 };
+              const pen = { cx: 100, cy: 220, r: 3.5 };
+
+              const hubLabel = { x: hub.cx, y: hub.cy - hub.r - NODE_GAP };
+              const goldenLabel = { x: golden.cx + golden.r + NODE_GAP, y: golden.cy };
+              const governedLabel = { x: governed.cx + governed.r + NODE_GAP, y: governed.cy };
+              const penLabel = { x: pen.cx, y: pen.cy + pen.r + NODE_GAP };
+
+              const l1start = { x: hub.cx, y: hub.cy + hub.r + NODE_GAP };
+              const l1end = { x: golden.cx, y: golden.cy - golden.r - NODE_GAP };
+
+              const l2start = { x: golden.cx, y: golden.cy + golden.r + NODE_GAP };
+              const l2end = { x: governed.cx, y: governed.cy - governed.r - NODE_GAP };
+
+              const l3start = { x: governed.cx, y: governed.cy + governed.r + NODE_GAP };
+              const l3end = { x: pen.cx, y: pen.cy - pen.r - NODE_GAP };
+
+              const connectorLabel = { x: pen.cx + NODE_GAP, y: (l3start.y + l3end.y) / 2 };
+
+              return (
+                <svg viewBox="0 0 200 250" className="block lg:hidden w-full h-auto" aria-hidden="true">
+                  {/* Vertical connector lines */}
+                  <line x1={l1start.x} y1={l1start.y.toFixed(1)} x2={l1end.x} y2={l1end.y.toFixed(1)} stroke="#1a1917" strokeWidth="1" />
+                  <line x1={l2start.x} y1={l2start.y.toFixed(1)} x2={l2end.x} y2={l2end.y.toFixed(1)} stroke="#1a1917" strokeWidth="1" />
+                  <line x1={l3start.x} y1={l3start.y.toFixed(1)} x2={l3end.x} y2={l3end.y.toFixed(1)} stroke="#1a1917" strokeWidth="1" />
+
+                  {/* Hub node: Live Cardio Pilot — heartbeat */}
+                  <foreignObject x={hub.cx - 25} y={hub.cy - 25} width="50" height="50" style={{ overflow: "visible" }}>
+                    <div className="heartbeat-container">
+                      <span className="heartbeat-ring" />
+                      <span className="heartbeat-dot" />
+                    </div>
+                  </foreignObject>
+
+                  {/* Branch nodes */}
+                  <circle cx={golden.cx} cy={golden.cy} r={golden.r} fill="none" stroke="#1a1917" strokeWidth="1" />
+                  <circle cx={governed.cx} cy={governed.cy} r={governed.r} fill="none" stroke="#1a1917" strokeWidth="1" />
+                  <circle cx={pen.cx} cy={pen.cy} r={pen.r} fill="none" stroke="#1a1917" strokeWidth="1" />
+
+                  {/* Hub label */}
+                  <text x={hubLabel.x} y={hubLabel.y.toFixed(1)} fill="#1a1917" fontSize="11" fontFamily="'JetBrains Mono', monospace" textAnchor="middle">
+                    Live Cardio Pilot
+                  </text>
+
+                  {/* Golden Cases — compact single-line format */}
+                  <text x={goldenLabel.x.toFixed(1)} y={goldenLabel.y.toFixed(1)} fill="#1a1917" fontSize="11" fontFamily="'JetBrains Mono', monospace" style={{ fontVariantNumeric: "tabular-nums" }}>
+                    12/12 · <tspan fill="#706c67">Golden Cases</tspan>
+                  </text>
+
+                  {/* Governed Routes — compact single-line format */}
+                  <text x={governedLabel.x.toFixed(1)} y={governedLabel.y.toFixed(1)} fill="#1a1917" fontSize="11" fontFamily="'JetBrains Mono', monospace" style={{ fontVariantNumeric: "tabular-nums" }}>
+                    5 · <tspan fill="#706c67">Governed Routes</tspan>
+                  </text>
+
+                  {/* Pen Workflow */}
+                  <text x={penLabel.x} y={penLabel.y.toFixed(1)} fill="#1a1917" fontSize="10" fontFamily="'JetBrains Mono', monospace" textAnchor="middle">
+                    Pen Workflow
+                  </text>
+
+                  {/* Connector label */}
                   <text x={connectorLabel.x} y={connectorLabel.y.toFixed(1)} fill="#706c67" fontSize="7.5" fontFamily="'JetBrains Mono', monospace">
                     built on top of
                   </text>
