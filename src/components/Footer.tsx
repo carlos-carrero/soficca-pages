@@ -1,17 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import ContactModal from "./ContactModal";
-
 const MONO = "var(--font-jetbrains-mono)";
 const SANS = "var(--font-plus-jakarta-sans)";
 const DISPLAY = "var(--font-space-grotesk)";
 
 export default function Footer() {
-  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-
   return (
-    <>
     <footer id="contact" className="w-full bg-[var(--paper)] pt-24 md:pt-36 pb-8 md:pb-12">
       <div className="max-w-7xl mx-auto px-6">
         {/* Four columns */}
@@ -81,13 +75,13 @@ export default function Footer() {
               >
                 Roadmap
               </a>
-              <button
-                onClick={() => setIsContactModalOpen(true)}
-                className="text-sm text-[var(--ink)] hover:text-[var(--accent)] transition-colors text-left cursor-pointer"
+              <a
+                href="mailto:hello@soficca.com?subject=Inquiry%20%E2%80%94%20Soficca"
+                className="text-sm text-[var(--ink)] hover:text-[var(--accent)] transition-colors"
                 style={{ fontFamily: SANS }}
               >
                 Contact
-              </button>
+              </a>
             </nav>
           </div>
 
@@ -140,11 +134,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-
-    <ContactModal
-      isOpen={isContactModalOpen}
-      onClose={() => setIsContactModalOpen(false)}
-    />
-    </>
   );
 }
