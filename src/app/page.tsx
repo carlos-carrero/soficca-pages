@@ -240,8 +240,8 @@ export default function Home() {
                   <line x1={l3start.x} y1={l3start.y.toFixed(1)} x2={l3end.x} y2={l3end.y.toFixed(1)} stroke="#1a1917" strokeWidth="1" />
 
                   {/* Hub node: Live Cardio Pilot — heartbeat */}
-                  <circle cx={hub.cx} cy={hub.cy} r="7" fill="#2d6a4f" className="heartbeat-ring" />
-                  <circle cx={hub.cx} cy={hub.cy} r="5" fill="#2d6a4f" className="heartbeat-dot" />
+                  <circle cx={hub.cx} cy={hub.cy} r="7" fill="#2d6a4f" className="heartbeat-ring" style={{ transformOrigin: `${hub.cx}px ${hub.cy}px` }} />
+                  <circle cx={hub.cx} cy={hub.cy} r="5" fill="#2d6a4f" className="heartbeat-dot" style={{ transformOrigin: `${hub.cx}px ${hub.cy}px` }} />
 
                   {/* Branch nodes */}
                   <circle cx={golden.cx} cy={golden.cy} r={golden.r} fill="none" stroke="#1a1917" strokeWidth="1" />
