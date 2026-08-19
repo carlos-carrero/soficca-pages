@@ -112,7 +112,7 @@ export default function ClinicalPipelineGraph() {
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, margin: "-15%" }}
+      viewport={{ once: true, margin: "-15%" }}
       className="bg-[#111111] text-white w-full min-h-[85vh] flex flex-col mx-auto"
     >
       {/* HEADER SECTION */}
