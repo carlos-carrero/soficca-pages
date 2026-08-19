@@ -211,14 +211,14 @@ export default function Home() {
             {(() => {
               const NODE_GAP = 16;
 
-              const hub = { cx: 100, cy: 50, r: 5 };
-              const golden = { cx: 100, cy: 100, r: 3.5 };
-              const governed = { cx: 100, cy: 150, r: 3.5 };
-              const pen = { cx: 100, cy: 220, r: 3.5 };
+              const hub = { cx: 100, cy: 65, r: 5 };
+              const golden = { cx: 100, cy: 125, r: 3.5 };
+              const governed = { cx: 100, cy: 185, r: 3.5 };
+              const pen = { cx: 100, cy: 255, r: 3.5 };
 
-              const hubLabel = { x: hub.cx, y: hub.cy - hub.r - NODE_GAP };
-              const goldenLabel = { x: golden.cx + golden.r + NODE_GAP, y: golden.cy };
-              const governedLabel = { x: governed.cx + governed.r + NODE_GAP, y: governed.cy };
+              const hubLabel = { x: hub.cx, y: 20 };
+              const goldenLabelX = golden.cx + golden.r + NODE_GAP;
+              const governedLabelX = governed.cx + governed.r + NODE_GAP;
               const penLabel = { x: pen.cx, y: pen.cy + pen.r + NODE_GAP };
 
               const l1start = { x: hub.cx, y: hub.cy + hub.r + NODE_GAP };
@@ -233,7 +233,7 @@ export default function Home() {
               const connectorLabel = { x: pen.cx + NODE_GAP, y: (l3start.y + l3end.y) / 2 };
 
               return (
-                <svg viewBox="0 0 200 250" className="block lg:hidden w-full h-auto" aria-hidden="true">
+                <svg viewBox="0 0 280 290" className="block lg:hidden w-full h-auto" aria-hidden="true">
                   {/* Vertical connector lines */}
                   <line x1={l1start.x} y1={l1start.y.toFixed(1)} x2={l1end.x} y2={l1end.y.toFixed(1)} stroke="#1a1917" strokeWidth="1" />
                   <line x1={l2start.x} y1={l2start.y.toFixed(1)} x2={l2end.x} y2={l2end.y.toFixed(1)} stroke="#1a1917" strokeWidth="1" />
@@ -253,18 +253,20 @@ export default function Home() {
                   <circle cx={pen.cx} cy={pen.cy} r={pen.r} fill="none" stroke="#1a1917" strokeWidth="1" />
 
                   {/* Hub label */}
-                  <text x={hubLabel.x} y={hubLabel.y.toFixed(1)} fill="#1a1917" fontSize="11" fontFamily="'JetBrains Mono', monospace" textAnchor="middle">
+                  <text x={hubLabel.x} y={hubLabel.y} fill="#1a1917" fontSize="11" fontFamily="'JetBrains Mono', monospace" textAnchor="middle">
                     Live Cardio Pilot
                   </text>
 
-                  {/* Golden Cases — compact single-line format */}
-                  <text x={goldenLabel.x.toFixed(1)} y={goldenLabel.y.toFixed(1)} fill="#1a1917" fontSize="11" fontFamily="'JetBrains Mono', monospace" style={{ fontVariantNumeric: "tabular-nums" }}>
-                    12/12 · <tspan fill="#706c67">Golden Cases</tspan>
+                  {/* Golden Cases — multi-line text */}
+                  <text x={goldenLabelX.toFixed(1)} y={(golden.cy - 8).toFixed(1)} fill="#1a1917" fontSize="11" fontFamily="'JetBrains Mono', monospace" style={{ fontVariantNumeric: "tabular-nums" }}>
+                    <tspan x={goldenLabelX.toFixed(1)} dy="0">12/12 ·</tspan>
+                    <tspan x={goldenLabelX.toFixed(1)} dy="13" fill="#706c67">Golden Cases</tspan>
                   </text>
 
-                  {/* Governed Routes — compact single-line format */}
-                  <text x={governedLabel.x.toFixed(1)} y={governedLabel.y.toFixed(1)} fill="#1a1917" fontSize="11" fontFamily="'JetBrains Mono', monospace" style={{ fontVariantNumeric: "tabular-nums" }}>
-                    5 · <tspan fill="#706c67">Governed Routes</tspan>
+                  {/* Governed Routes — multi-line text */}
+                  <text x={governedLabelX.toFixed(1)} y={(governed.cy - 8).toFixed(1)} fill="#1a1917" fontSize="11" fontFamily="'JetBrains Mono', monospace" style={{ fontVariantNumeric: "tabular-nums" }}>
+                    <tspan x={governedLabelX.toFixed(1)} dy="0">5 ·</tspan>
+                    <tspan x={governedLabelX.toFixed(1)} dy="13" fill="#706c67">Governed Routes</tspan>
                   </text>
 
                   {/* Pen Workflow */}
