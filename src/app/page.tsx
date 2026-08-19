@@ -211,10 +211,10 @@ export default function Home() {
             {(() => {
               const NODE_GAP = 16;
 
-              const hub = { cx: 100, cy: 65, r: 5 };
-              const golden = { cx: 100, cy: 125, r: 3.5 };
-              const governed = { cx: 100, cy: 185, r: 3.5 };
-              const pen = { cx: 100, cy: 255, r: 3.5 };
+              const hub = { cx: 140, cy: 65, r: 5 };
+              const golden = { cx: 140, cy: 125, r: 3.5 };
+              const governed = { cx: 140, cy: 185, r: 3.5 };
+              const pen = { cx: 140, cy: 255, r: 3.5 };
 
               const hubLabel = { x: hub.cx, y: 20 };
               const goldenLabelX = golden.cx + golden.r + NODE_GAP;
