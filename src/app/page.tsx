@@ -240,12 +240,8 @@ export default function Home() {
                   <line x1={l3start.x} y1={l3start.y.toFixed(1)} x2={l3end.x} y2={l3end.y.toFixed(1)} stroke="#1a1917" strokeWidth="1" />
 
                   {/* Hub node: Live Cardio Pilot — heartbeat */}
-                  <foreignObject x={hub.cx - 25} y={hub.cy - 25} width="50" height="50" style={{ overflow: "visible" }}>
-                    <div className="heartbeat-container w-full h-full grid place-items-center">
-                      <span className="heartbeat-ring col-start-1 row-start-1" />
-                      <span className="heartbeat-dot col-start-1 row-start-1" />
-                    </div>
-                  </foreignObject>
+                  <circle cx={hub.cx} cy={hub.cy} r="7" fill="#2d6a4f" className="heartbeat-ring" />
+                  <circle cx={hub.cx} cy={hub.cy} r="5" fill="#2d6a4f" className="heartbeat-dot" />
 
                   {/* Branch nodes */}
                   <circle cx={golden.cx} cy={golden.cy} r={golden.r} fill="none" stroke="#1a1917" strokeWidth="1" />
