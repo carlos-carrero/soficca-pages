@@ -144,7 +144,9 @@ export default function PenSection() {
             for Pen.
           </p>
           <a
-            href="#"
+            href="https://pen.soficca.com/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="self-start inline-flex items-center text-[10px] uppercase tracking-[0.15em] font-medium border-b pb-1 transition-colors"
             style={{
               fontFamily: MONO,
