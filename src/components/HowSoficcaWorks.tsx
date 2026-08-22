@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef, useState, useEffect, useCallback } from "react";
+
 const MONO = "var(--font-jetbrains-mono)";
 const SANS = "var(--font-plus-jakarta-sans)";
 const DISPLAY = "var(--font-space-grotesk)";
@@ -19,9 +21,55 @@ const GOVERNED_ITEMS = [
   },
 ];
 
+type AnimPhase = "idle" | "drawing-line" | "showing-dots" | "complete";
+
 export default function HowSoficcaWorks() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  const [phase, setPhase] = useState<AnimPhase>("idle");
+  const hasAnimatedRef = useRef(false);
+  const timerRefs = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const playSequence = useCallback(() => {
+    timerRefs.current.forEach(clearTimeout);
+    timerRefs.current = [];
+
+    setPhase("drawing-line");
+
+    const t1 = setTimeout(() => setPhase("showing-dots"), 600);
+    const t2 = setTimeout(() => setPhase("complete"), 600 + 100 * GOVERNED_ITEMS.length);
+    timerRefs.current = [t1, t2];
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimatedRef.current) {
+          hasAnimatedRef.current = true;
+          playSequence();
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      timerRefs.current.forEach(clearTimeout);
+    };
+  }, [isMounted, playSequence]);
+
+  const isShowingDots = phase === "showing-dots" || phase === "complete";
   return (
-    <section className="w-full bg-[var(--paper)] py-28 md:py-36">
+    <section ref={sectionRef} className="w-full bg-[var(--paper)] py-28 md:py-36">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-16 lg:gap-24">
         {/* LEFT COLUMN — editorial text */}
         <div className="flex flex-col gap-5">
@@ -87,11 +135,21 @@ export default function HowSoficcaWorks() {
 
             {/* Connected items */}
             <div className="relative pl-[18px]">
-              {/* Continuous vertical line */}
+              {/* Continuous vertical line - animated wrapper */}
               <div
-                className="absolute left-[5px] top-[5px] bottom-[5px] w-px"
-                style={{ backgroundColor: "var(--ink)", opacity: 0.7 }}
-              />
+                className="absolute left-[5px] top-[5px] bottom-[5px] w-px overflow-hidden"
+              >
+                <div
+                  className="w-full h-full"
+                  style={{
+                    backgroundColor: "var(--ink)",
+                    opacity: 0.7,
+                    transform: phase === "idle" ? "scaleY(0)" : "scaleY(1)",
+                    transformOrigin: "top",
+                    transition: "transform 600ms cubic-bezier(0.22, 1, 0.36, 1)",
+                  }}
+                />
+              </div>
 
               {GOVERNED_ITEMS.map((item, i) => (
                 <div key={item.title}>
@@ -103,12 +161,15 @@ export default function HowSoficcaWorks() {
                     />
                   )}
                   <div className="relative py-5 pl-4">
-                    {/* Circular marker */}
+                    {/* Circular marker - animated */}
                     <div
                       className="absolute left-[-18px] top-[24px] w-[11px] h-[11px] rounded-full"
                       style={{
                         backgroundColor: "var(--paper)",
                         border: "1.5px solid var(--ink)",
+                        opacity: isShowingDots ? 1 : 0,
+                        transform: isShowingDots ? "scale(1)" : "scale(0)",
+                        transition: `opacity 300ms cubic-bezier(0.22, 1, 0.36, 1) ${i * 100}ms, transform 300ms cubic-bezier(0.22, 1, 0.36, 1) ${i * 100}ms`,
                       }}
                     />
                     <h3

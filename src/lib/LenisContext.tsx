@@ -8,6 +8,7 @@ type ScrollListener = (payload: ScrollPayload) => void;
 
 interface LenisContextValue {
   subscribe: (fn: ScrollListener) => () => void;
+  lenis: Lenis | null;
 }
 
 const Ctx = createContext<LenisContextValue | null>(null);
@@ -48,6 +49,9 @@ export function LenisProvider({ children }: { children: ReactNode }) {
       listenersRef.current.add(fn);
       return () => { listenersRef.current.delete(fn); };
     },
+    get lenis() {
+      return lenisRef.current;
+    },
   }));
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
@@ -59,4 +63,9 @@ export function useLenisScroll(fn: ScrollListener) {
     if (!ctx) return;
     return ctx.subscribe(fn);
   }, [ctx, fn]);
+}
+
+export function useLenis() {
+  const ctx = useContext(Ctx);
+  return ctx?.lenis || null;
 }

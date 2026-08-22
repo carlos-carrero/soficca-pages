@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ContactModal from "./ContactModal";
 
 const DISPLAY = "var(--font-plus-jakarta-sans)";
 const MONO = "var(--font-jetbrains-mono)";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,8 +52,22 @@ export default function Header() {
             <span className="hidden md:inline">View Cardio Pilot</span>
             <span className="md:hidden">Pilot</span>
           </a>
+
+          {/* Contact */}
+          <button
+            onClick={() => setIsContactModalOpen(true)}
+            className="text-[10px] md:text-[11px] uppercase tracking-[0.1em] text-[var(--ink)] hover:text-[var(--accent)] transition-colors cursor-pointer"
+            style={{ fontFamily: MONO }}
+          >
+            Contact
+          </button>
         </nav>
       </div>
+
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </header>
   );
 }

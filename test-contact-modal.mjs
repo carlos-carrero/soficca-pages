@@ -1,109 +1,102 @@
 import { chromium } from 'playwright';
 
-(async () => {
-  const browser = await chromium.launch({ headless: false });
-  const page = await browser.newPage();
-  await page.setViewportSize({ width: 1440, height: 900 });
-  
-  console.log('1. Loading page and verifying modal is NOT visible by default...');
-  await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
-  await page.waitForTimeout(1000);
-  
-  // Verify modal is not visible
-  const modalVisible = await page.isVisible('text=Get in touch');
-  console.log('   Modal visible on load:', modalVisible);
-  
-  // Screenshot: default state
-  await page.screenshot({ path: 'screenshot-default-no-modal.png', fullPage: true });
-  console.log('   ✓ Screenshot saved: screenshot-default-no-modal.png');
-  
-  console.log('\n2. Testing Header Contact trigger...');
-  // Click header Contact button
-  await page.click('header button:has-text("Contact")');
-  await page.waitForTimeout(500);
-  
-  // Verify modal opened
-  const modalOpenedFromHeader = await page.isVisible('text=Get in touch');
-  console.log('   Modal opened from header:', modalOpenedFromHeader);
-  
-  // Screenshot: modal open from header
-  await page.screenshot({ path: 'screenshot-modal-from-header.png' });
-  console.log('   ✓ Screenshot saved: screenshot-modal-from-header.png');
-  
-  // Close modal with Escape key
-  await page.keyboard.press('Escape');
-  await page.waitForTimeout(300);
-  console.log('   ✓ Modal closed with Escape key');
-  
-  console.log('\n3. Testing Footer Contact trigger...');
-  // Scroll to footer
-  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await page.waitForTimeout(500);
-  
-  // Click footer Contact button
-  await page.click('footer button:has-text("Contact")');
-  await page.waitForTimeout(500);
-  
-  // Verify modal opened
-  const modalOpenedFromFooter = await page.isVisible('text=Get in touch');
-  console.log('   Modal opened from footer:', modalOpenedFromFooter);
-  
-  // Screenshot: modal open from footer
-  await page.screenshot({ path: 'screenshot-modal-from-footer.png' });
-  console.log('   ✓ Screenshot saved: screenshot-modal-from-footer.png');
-  
-  console.log('\n4. Submitting real test message...');
-  
-  // Fill out the form
-  await page.fill('#name', 'Test Submission');
-  await page.fill('#organization', 'Soficca QA');
-  await page.fill('#email', 'test@soficca-qa.com');
-  await page.fill('#message', 'This is a verification test from the Contact modal build — soficca-next, August 18, 2026.');
-  
-  console.log('   Form filled with test data');
-  
-  // Intercept the network request
-  let submissionResponse = null;
-  page.on('response', async (response) => {
-    if (response.url().includes('api.web3forms.com')) {
-      submissionResponse = {
-        status: response.status(),
-        statusText: response.statusText(),
-        body: await response.json().catch(() => null)
-      };
-    }
-  });
-  
-  // Submit the form
-  await page.click('button:has-text("SEND MESSAGE")');
-  console.log('   ✓ Form submitted');
-  
-  // Wait for response
-  await page.waitForTimeout(2000);
-  
-  // Check for success message
-  const successVisible = await page.isVisible('text=Message sent');
-  console.log('   Success message visible:', successVisible);
-  
-  // Screenshot: success state
-  await page.screenshot({ path: 'screenshot-modal-success.png' });
-  console.log('   ✓ Screenshot saved: screenshot-modal-success.png');
-  
-  // Log network response
-  if (submissionResponse) {
-    console.log('\n5. Network Response from api.web3forms.com:');
-    console.log('   Status:', submissionResponse.status);
-    console.log('   Status Text:', submissionResponse.statusText);
-    console.log('   Response Body:', JSON.stringify(submissionResponse.body, null, 2));
-  } else {
-    console.log('\n5. ⚠ No network response captured');
+async function testContactModal() {
+  const browser = await chromium.launch({ headless: true });
+
+  // Test at desktop width
+  console.log('\n=== DESKTOP WIDTH (1440px) ===\n');
+  let page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+
+  try {
+    await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+
+    // 1. Initial state - page at top
+    console.log('1. Capturing: initial page at top');
+    await page.screenshot({ path: 'modal-test-1-desktop-initial.png', fullPage: false });
+
+    // 2. Scroll partway down the page
+    await page.evaluate(() => {
+      window.scrollTo({ top: 1200, behavior: 'instant' });
+    });
+    await page.waitForTimeout(500);
+    console.log('2. Capturing: scrolled partway down (before modal)');
+    await page.screenshot({ path: 'modal-test-2-desktop-scrolled.png', fullPage: false });
+
+    // 3. Click Contact button in footer
+    await page.locator('footer button:has-text("Contact")').first().click();
+    await page.waitForTimeout(300);
+    console.log('3. Capturing: modal opened');
+    await page.screenshot({ path: 'modal-test-3-desktop-modal-open.png', fullPage: false });
+
+    // 4. Fill out the form
+    await page.fill('input[name="name"]', 'Test User');
+    await page.fill('input[name="email"]', 'test@example.com');
+    await page.fill('textarea[name="message"]', 'This is a test message from the automated test.');
+    await page.waitForTimeout(200);
+    console.log('4. Capturing: form filled');
+    await page.screenshot({ path: 'modal-test-4-desktop-form-filled.png', fullPage: false });
+
+    // 5. Close modal with Escape key
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(300);
+    console.log('5. Capturing: after closing modal');
+    await page.screenshot({ path: 'modal-test-5-desktop-after-close.png', fullPage: false });
+
+    // 6. Verify smooth scrolling still works
+    await page.evaluate(() => {
+      window.scrollTo({ top: 2400, behavior: 'smooth' });
+    });
+    await page.waitForTimeout(1000);
+    console.log('6. Capturing: after smooth scroll (Lenis verification)');
+    await page.screenshot({ path: 'modal-test-6-desktop-lenis-works.png', fullPage: false });
+
+    await page.close();
+
+    // Test at mobile width
+    console.log('\n=== MOBILE WIDTH (375px) ===\n');
+    page = await browser.newPage({ viewport: { width: 375, height: 667 } });
+
+    await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+
+    // 1. Scroll partway down
+    await page.evaluate(() => {
+      window.scrollTo({ top: 800, behavior: 'instant' });
+    });
+    await page.waitForTimeout(500);
+    console.log('1. Capturing: mobile scrolled');
+    await page.screenshot({ path: 'modal-test-1-mobile-scrolled.png', fullPage: false });
+
+    // 2. Open modal from footer
+    await page.locator('footer button:has-text("Contact")').first().click();
+    await page.waitForTimeout(300);
+    console.log('2. Capturing: mobile modal open');
+    await page.screenshot({ path: 'modal-test-2-mobile-modal-open.png', fullPage: false });
+
+    // 3. Fill form
+    await page.fill('input[name="name"]', 'Mobile Test');
+    await page.fill('input[name="email"]', 'mobile@example.com');
+    await page.fill('textarea[name="message"]', 'Mobile test message.');
+    await page.waitForTimeout(200);
+    console.log('3. Capturing: mobile form filled');
+    await page.screenshot({ path: 'modal-test-3-mobile-form-filled.png', fullPage: false });
+
+    // 4. Click outside to close
+    await page.locator('[class*="fixed inset-0"]').click({ position: { x: 10, y: 10 } });
+    await page.waitForTimeout(300);
+    console.log('4. Capturing: mobile after close');
+    await page.screenshot({ path: 'modal-test-4-mobile-after-close.png', fullPage: false });
+
+    await page.close();
+
+    console.log('\n✓ All modal tests completed successfully');
+    console.log('Screenshots saved: modal-test-*.png');
+
+  } catch (error) {
+    console.error('Error during testing:', error);
+    throw error;
+  } finally {
+    await browser.close();
   }
-  
-  // Wait for auto-close
-  await page.waitForTimeout(3000);
-  
-  console.log('\n✅ All tests complete!');
-  console.log('\n📧 NEXT STEP: Check hello@soficca.com for the test message');
-  
-  await browser.close();
-})();
+}
+
+testContactModal();

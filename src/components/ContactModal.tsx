@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useLenis } from "@/lib/LenisContext";
 
 const MONO = "var(--font-jetbrains-mono)";
 const SANS = "var(--font-plus-jakarta-sans)";
@@ -14,12 +16,24 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
+  const lenis = useLenis();
 
-  // Focus trap and escape key handler
+  // Handle client-side mounting for portal
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Focus trap, escape key handler, and Lenis scroll management
   useEffect(() => {
     if (!isOpen) return;
+
+    // Stop Lenis smooth scrolling when modal opens
+    if (lenis) {
+      lenis.stop();
+    }
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -71,8 +85,13 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
       document.removeEventListener("keydown", handleTab);
       document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "";
+
+      // Restart Lenis smooth scrolling when modal closes
+      if (lenis) {
+        lenis.start();
+      }
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, lenis]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -114,9 +133,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !isMounted) return null;
 
-  return (
+  const modalContent = (
     <div
       ref={modalRef}
       className="fixed inset-0 z-[100] flex items-center justify-center px-4"
@@ -296,4 +315,6 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
